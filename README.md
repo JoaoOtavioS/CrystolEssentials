@@ -30,7 +30,7 @@ class Example extends Listener{
             return;
         }
 
-        cooldownAPI.setCooldown(uuid, "quebroubloco", 10);
+        cooldownAPI.setCooldown(uuid, "quebroubloco", 10L); // é LONG e não INT
     }
 
 }

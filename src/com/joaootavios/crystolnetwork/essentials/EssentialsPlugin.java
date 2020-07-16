@@ -1,5 +1,9 @@
 package com.joaootavios.crystolnetwork.essentials;
 
+import com.joaootavios.crystolnetwork.essentials.listeners.BadEventsListener;
+import com.joaootavios.crystolnetwork.essentials.listeners.EnderPearlListener;
+import com.joaootavios.crystolnetwork.essentials.listeners.EntityChangeBlockListener;
+import com.joaootavios.crystolnetwork.essentials.listeners.WeatherChangeListener;
 import com.joaootavios.crystolnetwork.essentials.services.EssentialsServices;
 import com.joaootavios.crystolnetwork.essentials.utils.EssentialsConfig;
 import com.joaootavios.crystolnetwork.essentials.commands.warps.Shop;
@@ -69,7 +73,7 @@ public class EssentialsPlugin extends RPlugin {
     }
 
     private void registerListeners() {
-        registerListeners();
+        setListeners(new BadEventsListener(), new EnderPearlListener(), new EntityChangeBlockListener(), new WeatherChangeListener());
     }
 
     public void startScoreBoard() {
