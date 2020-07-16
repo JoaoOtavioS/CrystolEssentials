@@ -8,17 +8,20 @@ import org.bukkit.plugin.Plugin;
 public class EssentialsServices {
 
     private final static CachedCycle.ICycle<EssentialsServices> cycle = new CachedCycle(EssentialsPlugin.getPlugin(EssentialsPlugin.class)).getOrCreate("EssentialsServices");
-    public static CachedCycle.ICycle<EssentialsServices> getCycle() { return cycle; }
-    public static EssentialsServices getInstance(){
-        return cycle.getOrComputer(EssentialsServices::new);
-    }
-
     private final Plugin plugin;
     private final ServerConfig serverConfig;
 
-    protected EssentialsServices(){
+    protected EssentialsServices() {
         plugin = EssentialsPlugin.getPlugin(EssentialsPlugin.class);
         serverConfig = new ServerConfig(plugin);
+    }
+
+    public static CachedCycle.ICycle<EssentialsServices> getCycle() {
+        return cycle;
+    }
+
+    public static EssentialsServices getInstance() {
+        return cycle.getOrComputer(EssentialsServices::new);
     }
 
     public ServerConfig getServerConfig() {

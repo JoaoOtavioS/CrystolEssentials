@@ -7,13 +7,13 @@ public enum Messages {
     ERRORNOVIP("&cVocê não possuí o VIP necessário para tal ato"),
     ERRORGENERIC("&cUm erro não identificado aconteceu.");
 
-    private String message;
+    private final String message;
 
-    Messages(final String message){
+    Messages(final String message) {
         this.message = message;
     }
 
-    public String getMessage(){
+    public String getMessage() {
         return message;
     }
 

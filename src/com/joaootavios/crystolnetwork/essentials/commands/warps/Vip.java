@@ -10,14 +10,19 @@ import java.util.List;
 
 public class Vip extends RCommand {
     private final EssentialsConfig config;
+
     {
         config = EssentialsServices.getInstance().getServerConfig().getEssentialsConfig();
         addSubCommand(new VipSet());
     }
 
-    @Override public String getCommand() { return "vip"; }
+    @Override
+    public String getCommand() {
+        return "vip";
+    }
 
-    @Override public void perform() {
+    @Override
+    public void perform() {
         if (!hasPermission("crystolnetwork.vip")) {
             sendNoMessage(Messages.ERRORNOVIP.getMessage());
             return;
@@ -33,10 +38,16 @@ public class Vip extends RCommand {
             sendNoMessage(Messages.ERRORLOC.getMessage());
     }
 
-    @Override public List<String> tabComplete() { return null; }
+    @Override
+    public List<String> tabComplete() {
+        return null;
+    }
 
     private class VipSet extends RSubCommand {
-        { setAliases("definir", "setar"); setPermission("crystolnetwork.gerente"); }
+        {
+            setAliases("definir", "setar");
+            setPermission("crystolnetwork.gerente");
+        }
 
         @Override
         public String getSubCommand() {

@@ -4,53 +4,34 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.UUID;
 
 public class PlayerExperience implements Cloneable, Serializable {
 
-    public static class ExperienceComparator implements Comparable<ExperienceComparator>{
-
-        private UUID uuid;
-        private Long experience;
-
-        public ExperienceComparator(UUID uuid, Long experience){
-            this.uuid = uuid;
-            this.experience = experience;
-        }
-
-        public UUID getUUID() { return uuid; }
-
-        public Long getExperience() { return experience; }
-
-        @Override
-        public int compareTo(ExperienceComparator comparable) {
-            if (getExperience() < comparable.getExperience()){
-                return 1;
-            }
-            if (getExperience() > comparable.getExperience()){
-                return -1;
-            }
-            return 0;
-        }
-    }
-
-    private UUID uuid;
-    private HashMap<ExperienceAPI.LevelTypes, Long> experiences = new HashMap<>();
-    private PlayerDataInfo playerDataBuilder = new PlayerDataInfo();
-    private PlayerDataInfo.DataInfo playerData;
-
-    public PlayerExperience(OfflinePlayer player){
+    private final UUID uuid;
+    private final HashMap<ExperienceAPI.LevelTypes, Long> experiences = new HashMap<>();
+    private final PlayerDataInfo playerDataBuilder = new PlayerDataInfo();
+    private final PlayerDataInfo.DataInfo playerData;
+    public PlayerExperience(OfflinePlayer player) {
         this.uuid = player.getUniqueId();
         playerData = playerDataBuilder.select(uuid);
     }
-    public PlayerExperience(UUID uuid){
+
+    public PlayerExperience(UUID uuid) {
         this.uuid = uuid;
         playerData = playerDataBuilder.select(this.uuid);
     }
 
-    public UUID getUUID() { return uuid; }
+    public UUID getUUID() {
+        return uuid;
+    }
 
-    public OfflinePlayer getPlayer() { return Bukkit.getOfflinePlayer(uuid); }
+    public OfflinePlayer getPlayer() {
+        return Bukkit.getOfflinePlayer(uuid);
+    }
 
     public void setExperience(ExperienceAPI.LevelTypes type, Long experience) {
         Long exp = experience;
@@ -60,11 +41,11 @@ public class PlayerExperience implements Cloneable, Serializable {
         playerData.set("XP-" + type.name(), exp).save();
     }
 
-    public void addExperience(ExperienceAPI.LevelTypes type, Long experience){
+    public void addExperience(ExperienceAPI.LevelTypes type, Long experience) {
         setExperience(type, getExperience(type) + experience);
     }
 
-    public void removeExperience(ExperienceAPI.LevelTypes type, Long experience){
+    public void removeExperience(ExperienceAPI.LevelTypes type, Long experience) {
         setExperience(type, getExperience(type) - experience);
     }
 
@@ -117,14 +98,44 @@ public class PlayerExperience implements Cloneable, Serializable {
         return remaining;
     }
 
-    public void load(){
+    public void load() {
         Iterator<ExperienceAPI.LevelTypes> levelsTypes = Arrays.asList(ExperienceAPI.LevelTypes.values()).iterator();
         while (levelsTypes.hasNext()) {
             ExperienceAPI.LevelTypes type = levelsTypes.next();
             experiences.put(type, 0L);
-            if (playerData.contains("XP-" + type.name())){
+            if (playerData.contains("XP-" + type.name())) {
                 experiences.replace(type, playerData.get("XP-" + type.name()).get(0).asLong());
             }
+        }
+    }
+
+    public static class ExperienceComparator implements Comparable<ExperienceComparator> {
+
+        private final UUID uuid;
+        private final Long experience;
+
+        public ExperienceComparator(UUID uuid, Long experience) {
+            this.uuid = uuid;
+            this.experience = experience;
+        }
+
+        public UUID getUUID() {
+            return uuid;
+        }
+
+        public Long getExperience() {
+            return experience;
+        }
+
+        @Override
+        public int compareTo(ExperienceComparator comparable) {
+            if (getExperience() < comparable.getExperience()) {
+                return 1;
+            }
+            if (getExperience() > comparable.getExperience()) {
+                return -1;
+            }
+            return 0;
         }
     }
 

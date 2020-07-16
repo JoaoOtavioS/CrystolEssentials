@@ -1,44 +1,38 @@
 package com.joaootavios.crystolnetwork.essentials;
 
+import com.joaootavios.crystolnetwork.essentials.commands.warps.Shop;
+import com.joaootavios.crystolnetwork.essentials.commands.warps.Spawn;
+import com.joaootavios.crystolnetwork.essentials.commands.warps.Vip;
+import com.joaootavios.crystolnetwork.essentials.experienceapi.ExperienceAPI;
 import com.joaootavios.crystolnetwork.essentials.listeners.BadEventsListener;
 import com.joaootavios.crystolnetwork.essentials.listeners.EnderPearlListener;
 import com.joaootavios.crystolnetwork.essentials.listeners.EntityChangeBlockListener;
 import com.joaootavios.crystolnetwork.essentials.listeners.WeatherChangeListener;
 import com.joaootavios.crystolnetwork.essentials.services.EssentialsServices;
 import com.joaootavios.crystolnetwork.essentials.utils.EssentialsConfig;
-import com.joaootavios.crystolnetwork.essentials.commands.warps.Shop;
-import com.joaootavios.crystolnetwork.essentials.commands.warps.Spawn;
-import com.joaootavios.crystolnetwork.essentials.commands.warps.Vip;
-import com.joaootavios.crystolnetwork.essentials.experienceapi.ExperienceAPI;
 import org.bukkit.Server;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
 import rcore.plugin.RPlugin;
-import rcore.score.Assemble;
-import rcore.score.AssembleAdapter;
-import rcore.specificutils.ListUtil;
-import rcore.specificutils.PlayerUtil;
-
-import java.util.List;
 
 public class EssentialsPlugin extends RPlugin {
 
+    public static EssentialsConfig config;
     private Server server;
     private BukkitScheduler bukkitScheduler;
-    public static EssentialsConfig config;
 
     public EssentialsPlugin() {
         super("CrystolEssentials", "JoaoOtavioS & WalkGS");
     }
 
-    @Override public void onPreStart() {
+    @Override
+    public void onPreStart() {
         server = getServer();
         bukkitScheduler = server.getScheduler();
         config = EssentialsServices.getInstance().getServerConfig().getEssentialsConfig();
     }
 
-    @Override public void onStart() {
+    @Override
+    public void onStart() {
 
         // Registrando comandos e eventos.
 
@@ -49,7 +43,8 @@ public class EssentialsPlugin extends RPlugin {
 
     }
 
-    @Override public void onStop() {
+    @Override
+    public void onStop() {
         bukkitScheduler.cancelAllTasks();
     }
 

@@ -15,7 +15,7 @@ public class CooldownAPI {
         return (Long) UUIDMeta.getMetadata(uuid, type);
     }
 
-    public Long getCooldownRemaining(UUID uuid, String type){
+    public Long getCooldownRemaining(UUID uuid, String type) {
         final Long cooldown = getCooldown(uuid, type);
         if (cooldown < 0) return -1L;
         return cooldown - Cooldown.getCurrentTime();

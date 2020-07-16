@@ -20,8 +20,8 @@ public class PlayerDataInfo {
     public class DataInfo {
 
         GsonManager gson;
-        private String decodeChar = "@-#$&&";
-        private UUID uuid;
+        private final String decodeChar = "@-#$&&";
+        private final UUID uuid;
 
         public DataInfo(UUID uuid) {
             this.uuid = uuid;
@@ -98,7 +98,7 @@ public class PlayerDataInfo {
 
         class DataProperties {
 
-            private String data;
+            private final String data;
 
             public DataProperties(String data) {
                 this.data = data;

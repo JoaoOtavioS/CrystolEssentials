@@ -11,8 +11,8 @@ import java.util.Map;
 public class EssentialsConfig extends BukkitYamlConfiguration {
 
     private final Gson gson = new Gson();
-    private Map<String, Boolean> booleans = new LinkedHashMap<>();
-    private Map<String, String> locations = new LinkedHashMap<>();
+    private final Map<String, Boolean> booleans = new LinkedHashMap<>();
+    private final Map<String, String> locations = new LinkedHashMap<>();
 
     public EssentialsConfig(Path path) {
         super(path);
@@ -30,14 +30,13 @@ public class EssentialsConfig extends BukkitYamlConfiguration {
         return true;
     }
 
-    public boolean getBoolean(String name){
+    public boolean getBoolean(String name) {
         if (!booleans.containsKey(name)) return false;
         return booleans.get(name);
     }
 
     public boolean existBoolean(String name) {
-        if (!booleans.containsKey(name)) return false;
-        return true;
+        return booleans.containsKey(name);
     }
 
     // Locations
@@ -57,7 +56,7 @@ public class EssentialsConfig extends BukkitYamlConfiguration {
         return gson.fromJson(locations.get(locationName), Location.class);
     }
 
-    public boolean hasLocation(String locationName){
+    public boolean hasLocation(String locationName) {
         return locations.containsKey(locationName);
     }
 }

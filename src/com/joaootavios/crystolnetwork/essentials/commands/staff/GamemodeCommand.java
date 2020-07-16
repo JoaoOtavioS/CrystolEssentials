@@ -11,23 +11,24 @@ public class GamemodeCommand extends RCommand {
 
     private final EssentialsConfig config;
 
+    {
+
+        config = EssentialsServices.getInstance().getServerConfig().getEssentialsConfig();
+
+        setPermission(config.getString("permission-need"));
+        setAliases("stop");
+        addRequirement(Req.HAS_PERMISSION);
+    }
+
     @Override
     public String getCommand() {
         return null;
     }
 
-    {
-
-        config = EssentialsServices.getInstance().getServerConfig().getEssentialsConfig();
-
-        setPermission(config.getString("permission-need")); setAliases("stop");
-        addRequirement(Req.HAS_PERMISSION);
-    }
-
     @Override
     public void perform() {
 
-        if (config.getFactionsMode()){
+        if (config.getFactionsMode()) {
 
         }
     }

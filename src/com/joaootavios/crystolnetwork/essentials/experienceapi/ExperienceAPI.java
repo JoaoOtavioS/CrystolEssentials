@@ -3,6 +3,7 @@ package com.joaootavios.crystolnetwork.essentials.experienceapi;
 import com.joaootavios.crystolnetwork.essentials.EssentialsPlugin;
 import org.bukkit.OfflinePlayer;
 import rcore.util.GsonManager;
+
 import java.io.File;
 import java.util.*;
 
@@ -15,7 +16,7 @@ public class ExperienceAPI {
 
     public static HashMap<UUID, PlayerExperience> playersExperiences = new HashMap<>();
 
-    public static PlayerExperience get(UUID uuid){
+    public static PlayerExperience get(UUID uuid) {
         PlayerExperience pe;
         if (playersExperiences.containsKey(uuid))
             pe = playersExperiences.get(uuid);
@@ -95,22 +96,22 @@ public class ExperienceAPI {
         return get(uuid).getTotalLevels();
     }
 
-    public static boolean addXpAndIsUpped(OfflinePlayer player, LevelTypes type, Long xp){
+    public static boolean addXpAndIsUpped(OfflinePlayer player, LevelTypes type, Long xp) {
         return addXpAndIsUpped(player.getUniqueId(), type, xp);
     }
 
-    public static boolean addXpAndIsUpped(UUID uuid, LevelTypes type, Long xp){
+    public static boolean addXpAndIsUpped(UUID uuid, LevelTypes type, Long xp) {
         Long beforeLevel = getLevel(uuid, type);
         addXP(uuid, type, xp);
         Long afterLevel = getLevel(uuid, type);
         return (afterLevel > beforeLevel);
     }
 
-    public static HashMap<Integer, PlayerExperience> getTopsLevel(LevelTypes type){
+    public static HashMap<Integer, PlayerExperience> getTopsLevel(LevelTypes type) {
         return getTopsLevel(type, 1, topAmount);
     }
 
-    public static HashMap<Integer, PlayerExperience> getTopsLevel(LevelTypes type, int start, int stop){
+    public static HashMap<Integer, PlayerExperience> getTopsLevel(LevelTypes type, int start, int stop) {
         List<PlayerExperience.ExperienceComparator> comparables = new ArrayList<>();
         HashMap<Integer, PlayerExperience> tops = new HashMap<>();
         playersExperiences.values().forEach(it -> {
@@ -119,7 +120,7 @@ public class ExperienceAPI {
         });
         Collections.sort(comparables);
         int i = start;
-        for (PlayerExperience.ExperienceComparator comp : comparables){
+        for (PlayerExperience.ExperienceComparator comp : comparables) {
             if (i > stop)
                 break;
             UUID uuid = comp.getUUID();
@@ -129,11 +130,11 @@ public class ExperienceAPI {
         return tops;
     }
 
-    public static HashMap<Integer, PlayerExperience> getTopsTotalLevel(){
+    public static HashMap<Integer, PlayerExperience> getTopsTotalLevel() {
         return getTopsTotalLevel(1, topAmount);
     }
 
-    public static HashMap<Integer, PlayerExperience> getTopsTotalLevel(int start, int stop){
+    public static HashMap<Integer, PlayerExperience> getTopsTotalLevel(int start, int stop) {
         List<PlayerExperience.ExperienceComparator> comparables = new ArrayList<>();
         HashMap<Integer, PlayerExperience> tops = new HashMap<>();
         playersExperiences.values().forEach(it -> {
@@ -142,7 +143,7 @@ public class ExperienceAPI {
         });
         Collections.sort(comparables);
         int i = start;
-        for (PlayerExperience.ExperienceComparator comp : comparables){
+        for (PlayerExperience.ExperienceComparator comp : comparables) {
             if (i > stop)
                 break;
             UUID uuid = comp.getUUID();
@@ -174,7 +175,7 @@ public class ExperienceAPI {
         Collections.sort(comparables);
         Iterator<PlayerExperience.ExperienceComparator> ecs = comparables.iterator();
         int i = start;
-        for (PlayerExperience.ExperienceComparator comp : comparables){
+        for (PlayerExperience.ExperienceComparator comp : comparables) {
             if (i > stop)
                 break;
             UUID uid = comp.getUUID();
@@ -187,11 +188,11 @@ public class ExperienceAPI {
         return rank;
     }
 
-    public static void loadAll(){
+    public static void loadAll() {
         GsonManager gson = new GsonManager(EssentialsPlugin.getPlugin(EssentialsPlugin.class).getDataFolder() + "/DataInfos", "");
         File[] files = gson.getFiles();
-        if (files != null){
-            for(File file : Arrays.asList(files)){
+        if (files != null) {
+            for (File file : files) {
                 String uuidString = file.getName().replace(".json", "").replace("-datainfo", "");
                 UUID uuid = UUID.fromString(uuidString);
                 ExperienceAPI.get(uuid);
@@ -199,7 +200,7 @@ public class ExperienceAPI {
         }
     }
 
-    public static List<LevelTypes> getLevelTypes(){
+    public static List<LevelTypes> getLevelTypes() {
         return Arrays.asList(LevelTypes.values());
     }
 

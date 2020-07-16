@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public class UUIDMeta {
 
-    private static HashMap<String, HashMap<String, Object>> uuid_meta = new HashMap<>();
+    private static final HashMap<String, HashMap<String, Object>> uuid_meta = new HashMap<>();
 
     public static void setMetadata(UUID uuid, String key, Object value) {
         HashMap<String, Object> meta_value = getMetadataList(uuid);
@@ -25,9 +25,7 @@ public class UUIDMeta {
     public static void removeMetadata(UUID uuid, String key) {
         if (containsData(uuid, key)) {
             HashMap<String, Object> meta_value = getMetadataList(uuid);
-            if (meta_value.containsKey(key)) {
-                meta_value.remove(key);
-            }
+            meta_value.remove(key);
             uuid_meta.replace(uuid.toString(), meta_value);
         }
     }

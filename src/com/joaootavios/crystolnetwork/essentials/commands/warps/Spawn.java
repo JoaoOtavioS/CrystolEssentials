@@ -10,14 +10,19 @@ import java.util.List;
 
 public class Spawn extends RCommand {
     private final EssentialsConfig config;
+
     {
         config = EssentialsServices.getInstance().getServerConfig().getEssentialsConfig();
         addSubCommand(new SpawnSet());
     }
 
-    @Override public String getCommand() { return "spawn"; }
+    @Override
+    public String getCommand() {
+        return "spawn";
+    }
 
-    @Override public void perform() {
+    @Override
+    public void perform() {
         if (config.getBoolean("warp-spawn") == false) {
             sendNoMessage(Messages.ERRORLOCDISABLE.getMessage());
             return;
@@ -28,10 +33,16 @@ public class Spawn extends RCommand {
             sendNoMessage(Messages.ERRORLOC.getMessage());
     }
 
-    @Override public List<String> tabComplete() { return null; }
+    @Override
+    public List<String> tabComplete() {
+        return null;
+    }
 
     private class SpawnSet extends RSubCommand {
-        { setAliases("definir", "setar"); setPermission("crystolnetwork.gerente"); }
+        {
+            setAliases("definir", "setar");
+            setPermission("crystolnetwork.gerente");
+        }
 
         @Override
         public String getSubCommand() {

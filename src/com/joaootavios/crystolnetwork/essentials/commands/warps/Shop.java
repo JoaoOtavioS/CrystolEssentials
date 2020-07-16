@@ -10,15 +10,20 @@ import java.util.List;
 
 public class Shop extends RCommand {
     private final EssentialsConfig config;
+
     {
         config = EssentialsServices.getInstance().getServerConfig().getEssentialsConfig();
         addSubCommand(new ShopSet());
         setAliases("loja");
     }
 
-    @Override public String getCommand() { return "shop"; }
+    @Override
+    public String getCommand() {
+        return "shop";
+    }
 
-    @Override public void perform() {
+    @Override
+    public void perform() {
         if (config.getBoolean("warp-shop") == false) {
             sendNoMessage(Messages.ERRORLOCDISABLE.getMessage());
             return;
@@ -29,10 +34,16 @@ public class Shop extends RCommand {
             sendNoMessage(Messages.ERRORLOC.getMessage());
     }
 
-    @Override public List<String> tabComplete() { return null; }
+    @Override
+    public List<String> tabComplete() {
+        return null;
+    }
 
     private class ShopSet extends RSubCommand {
-        { setAliases("definir", "setar"); setPermission("crystolnetwork.gerente"); }
+        {
+            setAliases("definir", "setar");
+            setPermission("crystolnetwork.gerente");
+        }
 
         @Override
         public String getSubCommand() {
