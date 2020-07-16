@@ -36,7 +36,6 @@ public class Exemplo extends Listener{
 public class Exemplo extends Listener {
 
     // Exemplo de uso do ExperienceAPI
-
     @EventHandler
     public void onBreakXP(BlockBreakEvent e) {
         final Player player = e.getPlayer();
