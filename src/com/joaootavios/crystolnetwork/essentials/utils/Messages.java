@@ -8,11 +8,9 @@ public enum Messages {
     ERRORGENERIC("&cUm erro não identificado aconteceu.");
 
     private final String message;
-
     Messages(final String message) {
         this.message = message;
     }
-
     public String getMessage() {
         return message;
     }

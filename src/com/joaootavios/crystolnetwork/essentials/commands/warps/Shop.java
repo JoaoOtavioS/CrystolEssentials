@@ -4,6 +4,7 @@ import com.joaootavios.crystolnetwork.essentials.EssentialsPlugin;
 import com.joaootavios.crystolnetwork.essentials.utils.Messages;
 import rcore.command.RCommand;
 import rcore.command.subcommand.RSubCommand;
+import rcore.util.Sound;
 
 import java.util.List;
 
@@ -36,6 +37,8 @@ public class Shop extends RCommand {
             return "set";
         }
         @Override public void perform() {
+            sendTitle("", "&aLocalização definida.", 5, 30, 5);
+            playSound(Sound.ENTITY_VILLAGER_YES, 1, 1);
             EssentialsPlugin.config.setLocation("shop", asPlayer().getLocation());
         }
         @Override public List<String> tabComplete() {
