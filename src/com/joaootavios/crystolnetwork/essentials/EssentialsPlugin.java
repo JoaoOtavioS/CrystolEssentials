@@ -111,7 +111,7 @@ public class EssentialsPlugin extends RPlugin {
             scoreboard.setString("scoreboard-title", "&e&lCrystolNetwork");
             scoreboard.set("scoreboard-lines", ListUtil.getStringList(" ", " &fNome: &e<player>", " &fLatência: <ping>", " ", " &fJogadores: <onlines>", " "," &fMoedas: &a<coins>", " &fCash: &6<cash> ", " ", " &ecrystolnetwork.com"));
             scoreboard.set("compatible-with-factions", true);
-            scoreboard.set("scoreboard-lines-hasfac", ListUtil.getStringList(" ", " &fNome: &e<player>", " &fLatência: <ping>", " ", " &eFacção: <faction_name>", "  &f<faction_online>", "  &f<faction_power>", "  &f<faction_land>", " ", " &fMoedas: &a<coins>", " &fCash: &6<cash> ", " ", " &ecrystolnetwork.com"));
+            scoreboard.set("scoreboard-lines-hasfac", ListUtil.getStringList(" ", " &fNome: &e<player>", " &fLatência: <ping>", " ", " &eFacção: <faction_name>", "  &fOnlines: &7<faction_online>", "  &fPoder: &7<faction_power>", "  &fTerras: &7<faction_land>", " ", " &fMoedas: &a<coins>", " &fCash: &6<cash> ", " ", " &ecrystolnetwork.com"));
             scoreboard.set("scoreboard-lines-nofac", ListUtil.getStringList(" ", " &fNome: &e<player>", " &fLatência: <ping>", " ", " &cSem facção.", " "," &fMoedas: &a<coins>", " &fCash: &6<cash> ", " ", " &ecrystolnetwork.com"));
         }
         scoreboard.save();
