@@ -11,8 +11,17 @@ import com.joaootavios.crystolnetwork.essentials.listeners.WeatherChangeListener
 import com.joaootavios.crystolnetwork.essentials.services.EssentialsServices;
 import com.joaootavios.crystolnetwork.essentials.utils.EssentialsConfig;
 import org.bukkit.Server;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
 import rcore.plugin.RPlugin;
+import rcore.score.Assemble;
+import rcore.score.AssembleAdapter;
+import rcore.specificutils.ListUtil;
+import rcore.specificutils.PlayerUtil;
+import rcore.util.RU;
+
+import java.util.List;
 
 public class EssentialsPlugin extends RPlugin {
 
@@ -35,10 +44,11 @@ public class EssentialsPlugin extends RPlugin {
     public void onStart() {
 
         // Registrando comandos e eventos.
-
         verifyDefaultConfig();
         registerCommands();
         registerListeners();
+        registerScoreBoard();
+
         ExperienceAPI.loadAll();
 
     }
@@ -58,6 +68,9 @@ public class EssentialsPlugin extends RPlugin {
             config.setBoolean("disable-food-event", true);
             config.setBoolean("disable-bad-events", true);
             config.setBoolean("scoreboard-active", true);
+            config.setString("scoreboard-title", "&e&lCrystolNetwork");
+            config.setStringList("scoreboard-lines", ListUtil.getStringList(" ", " <f>Nome: <e><player>", " <f>Latência: <ping-color>ms", " "," <f>Status: <andamento>", " ", " <f>Vivos: <jogadoresvivos>", " ", "<e>crystolnetwork.com"));
+            config.setInt("scoreboard-update-ticks", 20);
         }
     }
 
@@ -71,7 +84,32 @@ public class EssentialsPlugin extends RPlugin {
         setListeners(new BadEventsListener(), new EnderPearlListener(), new EntityChangeBlockListener(), new WeatherChangeListener());
     }
 
-    public void startScoreBoard() {
+    public void registerScoreBoard() {
+        if (config.getBoolean("scoreboard-active") == true) {
 
+            Assemble score = new Assemble(this, new AssembleAdapter() {
+                @Override public String getTitle(Player player) {
+                    return config.getString("scoreboard-title");
+                }
+
+                @Override public List<String> getLines(Player player) {
+                    if (RU.serverVersion.equals(".v1_8_R3.")) {
+                        int ping = ((CraftPlayer) player).getHandle().ping;
+                        String pingcolor = "&a";
+                        if (ping > 150) pingcolor = "&c";
+                        String corfinal = pingcolor;
+
+                        List<String> stringlist = ListUtil.getColorizedStringList(config.getStringList("scoreboard-lines"));
+                        stringlist.replaceAll(a -> a.replace("<player>", player.getName()));
+                        return stringlist;
+                    } else {
+                        List<String> stringlist = ListUtil.getColorizedStringList(config.getStringList("scoreboard-lines"));
+                        stringlist.replaceAll(a -> a.replace("<player>", player.getName()));
+                        return stringlist;
+                    }
+                }
+            });
+            score.scoreUpdateTick = config.getInt("scoreboard-update-ticks");
+        }
     }
 }
