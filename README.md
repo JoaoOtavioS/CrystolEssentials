@@ -7,14 +7,7 @@ Um plugin essencial para o funcionamento do servidor.
 
 ## Uso da CooldownAPI
 ```java
-import com.joaootavios.crystolnetwork.essentials.utils.CooldownAPI;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import java.util.UUID;
-
-public class Example extends Listener{
+public class Exemplo extends Listener{
 
     private final CooldownAPI cooldownAPI = new CooldownAPI();
     
@@ -41,16 +34,7 @@ public class Example extends Listener{
 
 ## Uso da ExperienceAPI
 ```java
-import com.joaootavios.crystolnetwork.essentials.experienceapi.ExperienceAPI;
-import org.bukkit.GameMode;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-
-public class Example extends Listener {
+public class Exemplo extends Listener {
 
     @EventHandler
     public void onBreakXP(BlockBreakEvent e) {
