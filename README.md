@@ -2,7 +2,8 @@
 
 ```java
 import com.joaootavios.crystolnetwork.essentials.utils.CooldownAPI;
-import org.bukkit.event.block.BlockBreakEvent;import java.util.UUID;
+import org.bukkit.event.block.BlockBreakEvent;
+import java.util.UUID;
 
 class Example extends Listener{
 
