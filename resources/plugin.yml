@@ -2,3 +2,4 @@ name: CrystolEssentials
 main: com.joaootavios.crystolnetwork.essentials.EssentialsPlugin
 version: CrystolNetwork
 authors: [JoaoOtavioS & WalkDev]
+softdepend: [RCore, CrystolGuerra, CrystolEconomy, Factions]
