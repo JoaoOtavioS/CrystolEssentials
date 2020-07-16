@@ -1,10 +1,11 @@
-#CrystolEssentials
+# CrystolEssentials
+Um plugin essencial para o funcionamento do servidor.
 
 ## Sumário
 * [Exemplo CooldownAPI](#uso-da-cooldownapi)
 * [Exemplo_ExperienceAPI](#uso-da-experienceapi)
 
-##Uso da CooldownAPI
+## Uso da CooldownAPI
 ```java
 import com.joaootavios.crystolnetwork.essentials.utils.CooldownAPI;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -35,7 +36,7 @@ class Example extends Listener{
 }
 ```
 
-##Uso da ExperienceAPI
+## Uso da ExperienceAPI
 ```java
     
 ```
