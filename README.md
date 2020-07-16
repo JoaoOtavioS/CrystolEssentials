@@ -8,10 +8,13 @@ Um plugin essencial para o funcionamento do servidor.
 ## Uso da CooldownAPI
 ```java
 import com.joaootavios.crystolnetwork.essentials.utils.CooldownAPI;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import java.util.UUID;
 
-class Example extends Listener{
+public class Example extends Listener{
 
     private final CooldownAPI cooldownAPI = new CooldownAPI();
     
@@ -39,30 +42,36 @@ class Example extends Listener{
 ## Uso da ExperienceAPI
 ```java
 import com.joaootavios.crystolnetwork.essentials.experienceapi.ExperienceAPI;
+import org.bukkit.GameMode;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
-class Example extends Listener{
-   
-   @EventHandler
-   public void onBreakXP(BlockBreakEvent e) {
-       final Player player = e.getPlayer();
-       // Verificando se o evento foi cancelado.
-       if (!e.isCancelled()) {
-                
-       // Verifica se o cara está no gamemode survival (evita abusos)
-       if (player.getGameMode().equals(GameMode.SURVIVAL)) {
-           if (ExperienceAPI.addXpAndIsUpped(player, ExperienceAPI.LevelTypes.MINERAÇÃO, 1L)) {
-               player.sendMessage(TXT.parse("&eVocê evoluiu um nível em Mineração. [total: " + ExperienceAPI.getLevel(player, ExperienceAPI.LevelTypes.MINERAÇÃO) + "]"));
-           }
+public class Example extends Listener {
 
-                player.sendMessage("&eMineração: (" + ExperienceAPI.getXP(player, ExperienceAPI.LevelTypes.MINERAÇÃO) + "/" + ExperienceAPI.getTotalXpRemaining(player, ExperienceAPI.LevelTypes.MINERAÇÃO) + ") <e><l>+1 XP");
+    @EventHandler
+    public void onBreakXP(BlockBreakEvent e) {
+        final Player player = e.getPlayer();
+        // Verificando se o evento foi cancelado.
+        if (!e.isCancelled()) {
+
+            // Verifica se o cara está no gamemode survival (evita abusos)
+            if (player.getGameMode().equals(GameMode.SURVIVAL)) {
+                if (ExperienceAPI.addXpAndIsUpped(player, ExperienceAPI.LevelTypes.MINERAÇÃO, 1L)) {
+                    player.sendMessage("Você evoluiu um nível em Mineração. [total: " + ExperienceAPI.getLevel(player, ExperienceAPI.LevelTypes.MINERAÇÃO) + "]");
+                }
+
+                player.sendMessage("Mineração: (" + ExperienceAPI.getXP(player, ExperienceAPI.LevelTypes.MINERAÇÃO) + "/" + ExperienceAPI.getTotalXpRemaining(player, ExperienceAPI.LevelTypes.MINERAÇÃO) + ") <e><l>+1 XP");
                 if (ExperienceAPI.getLevel(player, ExperienceAPI.LevelTypes.MINERAÇÃO) > 100L) {
                     player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 10, 1));
                 }
-           // Recompensa de exemplo >> 100 leveis Mineração = HASTE.
+                // Recompensa de exemplo >> 100 leveis Mineração = HASTE.
             }
         }
-    } 
+    }
 }
 ```
 
