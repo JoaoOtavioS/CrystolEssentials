@@ -12,7 +12,6 @@ public class Exemplo extends Listener{
     private final CooldownAPI cooldownAPI = new CooldownAPI();
     
     // Exemplo de uso do CooldownAPI
-    
     @EventHandler
     public void onBreakDelay(BlockBreakEvent e) {
         // Adiciona um delay de 10s para quebrar outro bloco.
@@ -36,9 +35,12 @@ public class Exemplo extends Listener{
 ```java
 public class Exemplo extends Listener {
 
+    // Exemplo de uso do ExperienceAPI
+
     @EventHandler
     public void onBreakXP(BlockBreakEvent e) {
         final Player player = e.getPlayer();
+        
         // Verificando se o evento foi cancelado.
         if (!e.isCancelled()) {
 
