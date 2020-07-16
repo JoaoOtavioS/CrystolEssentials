@@ -25,6 +25,7 @@ public class EnderPearlListener implements Listener {
         }
         if (cooldownAPI.getCooldownRemaining(p.getUniqueId(), "enderpearl") > 0) {
             PlayerUtil.sendActionBar(p, "&cAguarde " + cooldownAPI.getCooldownRemainingVerb(p.getUniqueId(), "enderpearl") + " para tacar uma enderpearl novamente.");
+            p.getItemInHand().setAmount(p.getItemInHand().getAmount() + 1);
             e.setCancelled(true);
             return;
         }
