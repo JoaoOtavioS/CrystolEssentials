@@ -9,6 +9,7 @@ import rcore.command.requirement.Req;
 import rcore.inventory.Inv;
 import rcore.specificutils.PlayerUtil;
 import rcore.util.MakeItem;
+import rcore.util.RU;
 import rcore.util.Sound;
 import rcore.util.TXT;
 import java.util.List;
@@ -25,7 +26,7 @@ public class CrystolNetwork extends RCommand {
     @Override public void perform() {
         Inv inventory = new Inv(3 * 9, "Monitoramento");
         inventory.setItem(11, new MakeItem(Material.APPLE).setName("&eCrystolEssentials").addLoreList("&fEssencial como uma mãça.").build());
-        inventory.setItem(13, new MakeItem(Material.EMPTY_MAP).setName("&eInformações:").addLoreList("", "&fPlugins: &7"+ Bukkit.getPluginManager().getPlugins().length, "&fMemória: &7"+ memUsed + "MB", "&fUptime: &7"+ EssentialsPlugin.getServerUptime(), " ", "&fVersão do servidor: &7"+ Bukkit.getVersion(), "&fVersão desta build: &7"+ EssentialsPlugin.version).build());
+        inventory.setItem(13, new MakeItem(Material.EMPTY_MAP).setName("&eInformações:").addLoreList("", "&fPlugins: &7"+ Bukkit.getPluginManager().getPlugins().length, "&fMemória: &7"+ memUsed + "MB", "&fUptime: &7"+ EssentialsPlugin.getServerUptime(), " ", "&fVersão do servidor: &7"+ RU.getServerVersion(), "&fVersão desta build: &7"+ EssentialsPlugin.version).build());
         inventory.setItem(15, new MakeItem(Material.BARRIER).setName("&aRecarregar configurações.").build(), (e) -> {
             Player p = (Player) e.getWhoClicked();
             p.closeInventory();

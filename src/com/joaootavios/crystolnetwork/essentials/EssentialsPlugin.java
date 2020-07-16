@@ -9,6 +9,7 @@ import com.joaootavios.crystolnetwork.essentials.listeners.BadEventsListener;
 import com.joaootavios.crystolnetwork.essentials.listeners.EnderPearlListener;
 import com.joaootavios.crystolnetwork.essentials.listeners.EntityChangeBlockListener;
 import com.joaootavios.crystolnetwork.essentials.listeners.WeatherChangeListener;
+import com.joaootavios.crystolnetwork.essentials.systems.StackMobs;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPlayer;
 import dev.walk.economy.Manager.Account;
@@ -77,7 +78,9 @@ public class EssentialsPlugin extends RPlugin {
     }
 
     private void registerListeners() {
-        setListeners(new BadEventsListener(), new EnderPearlListener(), new EntityChangeBlockListener(), new WeatherChangeListener());
+        setListeners(new BadEventsListener(), new EntityChangeBlockListener(), new WeatherChangeListener());
+        if (config.getBoolean("enable-stackmobs") == true) setListener(new StackMobs());
+        if (config.getBoolean("disable-enderpearl-cooldown") == false) setListener(new EnderPearlListener());
     }
 
     private void registerDefaultConfig() {
@@ -91,6 +94,8 @@ public class EssentialsPlugin extends RPlugin {
             config.set("disable-food-event", true);
             config.set("disable-bad-events", true);
             config.set("disable-enderpearl-cooldown", false);
+            config.set("enable-stackmobs", true);
+            config.set("stackmobs-limit", 1000);
             config.set("enderpearl-cooldown", 5L);
 
         }
@@ -107,10 +112,10 @@ public class EssentialsPlugin extends RPlugin {
         if (!scoreboard.contains("scoreboard-update-ticks")) {
             scoreboard.set("scoreboard-active", true);
             scoreboard.set("scoreboard-update-ticks", 40);
+            scoreboard.set("compatible-with-factions", true);
             scoreboard.set("compatible-with-crystolguerra", false);
             scoreboard.setString("scoreboard-title", "&e&lCrystolNetwork");
             scoreboard.set("scoreboard-lines", ListUtil.getStringList(" ", " &fNome: &e<player>", " &fLatência: <ping>", " ", " &fJogadores: <onlines>", " "," &fMoedas: &a<coins>", " &fCash: &6<cash> ", " ", " &ecrystolnetwork.com"));
-            scoreboard.set("compatible-with-factions", true);
             scoreboard.set("scoreboard-lines-hasfac", ListUtil.getStringList(" ", " &fNome: &e<player>", " &fLatência: <ping>", " ", " &eFacção: <faction_name>", "  &fOnlines: &7<faction_online>", "  &fPoder: &7<faction_power>", "  &fTerras: &7<faction_land>", " ", " &fMoedas: &a<coins>", " &fCash: &6<cash> ", " ", " &ecrystolnetwork.com"));
             scoreboard.set("scoreboard-lines-nofac", ListUtil.getStringList(" ", " &fNome: &e<player>", " &fLatência: <ping>", " ", " &cSem facção.", " "," &fMoedas: &a<coins>", " &fCash: &6<cash> ", " ", " &ecrystolnetwork.com"));
         }
