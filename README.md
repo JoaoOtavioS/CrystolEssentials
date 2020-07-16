@@ -3,7 +3,7 @@ Um plugin essencial para o funcionamento do servidor.
 
 ## Sumário
 * [Exemplo CooldownAPI](#uso-da-cooldownapi)
-* [Exemplo_ExperienceAPI](#uso-da-experienceapi)
+* [Exemplo ExperienceAPI](#uso-da-experienceapi)
 
 ## Uso da CooldownAPI
 ```java
@@ -38,7 +38,32 @@ class Example extends Listener{
 
 ## Uso da ExperienceAPI
 ```java
-    
+import com.joaootavios.crystolnetwork.essentials.experienceapi.ExperienceAPI;
+import org.bukkit.event.block.BlockBreakEvent;
+
+class Example extends Listener{
+   
+   @EventHandler
+   public void onBreakXP(BlockBreakEvent e) {
+       final Player player = e.getPlayer();
+       // Verificando se o evento foi cancelado.
+       if (!e.isCancelled()) {
+                
+       // Verifica se o cara está no gamemode survival (evita abusos)
+       if (player.getGameMode().equals(GameMode.SURVIVAL)) {
+           if (ExperienceAPI.addXpAndIsUpped(player, ExperienceAPI.LevelTypes.MINERAÇÃO, 1L)) {
+               player.sendMessage(TXT.parse("&eVocê evoluiu um nível em Mineração. [total: " + ExperienceAPI.getLevel(player, ExperienceAPI.LevelTypes.MINERAÇÃO) + "]"));
+           }
+
+                player.sendMessage("&eMineração: (" + ExperienceAPI.getXP(player, ExperienceAPI.LevelTypes.MINERAÇÃO) + "/" + ExperienceAPI.getTotalXpRemaining(player, ExperienceAPI.LevelTypes.MINERAÇÃO) + ") <e><l>+1 XP");
+                if (ExperienceAPI.getLevel(player, ExperienceAPI.LevelTypes.MINERAÇÃO) > 100L) {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 10, 1));
+                }
+           // Recompensa de exemplo >> 100 leveis Mineração = HASTE.
+            }
+        }
+    } 
+}
 ```
 
 ## Licença
