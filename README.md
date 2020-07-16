@@ -21,7 +21,7 @@ public class Exemplo extends Listener{
 
         if (cooldownAPI.getCooldownRemaining(uuid, "quebroubloco") > 0){
             e.setCancelled(true); 
-            player.sendMessage("Aguarde " + cooldownAPI.getCooldownRemaining(uuid, "quebroubloco") + " para quebrar um bloco novamente.");
+            player.sendMessage("Aguarde " + cooldownAPI.getCooldownRemainingVerb(uuid, "quebroubloco") + " para quebrar um bloco novamente.");
             return;
         }
 

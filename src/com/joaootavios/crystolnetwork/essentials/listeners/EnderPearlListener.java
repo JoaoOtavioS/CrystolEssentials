@@ -1,5 +1,6 @@
 package com.joaootavios.crystolnetwork.essentials.listeners;
 
+import com.joaootavios.crystolnetwork.essentials.EssentialsPlugin;
 import com.joaootavios.crystolnetwork.essentials.utils.CooldownAPI;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -14,6 +15,7 @@ public class EnderPearlListener implements Listener {
 
     @EventHandler
     public void enviarEnderPearl(ProjectileLaunchEvent e) {
+        if (EssentialsPlugin.config.getBoolean("disable-enderpearl-cooldown") == true) return;
         if (!(e.getEntity().getShooter() instanceof Player)) {
             return;
         }
@@ -22,10 +24,10 @@ public class EnderPearlListener implements Listener {
             return;
         }
         if (cooldownAPI.getCooldownRemaining(p.getUniqueId(), "enderpearl") > 0) {
-            PlayerUtil.sendActionBar(p, "Aguarde " + cooldownAPI.getCooldownRemaining(p.getUniqueId(), "enderpearl") + " para tacar uma enderpearl novamente.");
+            PlayerUtil.sendActionBar(p, "&cAguarde " + cooldownAPI.getCooldownRemainingVerb(p.getUniqueId(), "enderpearl") + " para tacar uma enderpearl novamente.");
             e.setCancelled(true);
             return;
         }
-        cooldownAPI.setCooldown(p.getUniqueId(), "enderpearl", 3L);
+        cooldownAPI.setCooldown(p.getUniqueId(), "enderpearl", EssentialsPlugin.config.getLong("enderpearl-cooldown"));
     }
 }

@@ -5,6 +5,7 @@ import rcore.util.Cooldown;
 import java.util.UUID;
 
 public class CooldownAPI {
+    private final Cooldown cooldown = new Cooldown();
 
     public void setCooldown(UUID uuid, String type, Long time) {
         UUIDMeta.setMetadata(uuid, type, Cooldown.getCurrentTime() + time);
@@ -19,6 +20,10 @@ public class CooldownAPI {
         final Long cooldown = getCooldown(uuid, type);
         if (cooldown < 0) return -1L;
         return cooldown - Cooldown.getCurrentTime();
+    }
+
+    public String getCooldownRemainingVerb(UUID uuid, String type) {
+        return cooldown.getTimeString(getCooldownRemaining(uuid, type));
     }
 
     public boolean hasCooldown(UUID uuid, String type) {

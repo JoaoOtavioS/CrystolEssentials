@@ -8,8 +8,8 @@ import com.joaootavios.crystolnetwork.essentials.listeners.BadEventsListener;
 import com.joaootavios.crystolnetwork.essentials.listeners.EnderPearlListener;
 import com.joaootavios.crystolnetwork.essentials.listeners.EntityChangeBlockListener;
 import com.joaootavios.crystolnetwork.essentials.listeners.WeatherChangeListener;
-import com.joaootavios.crystolnetwork.essentials.services.EssentialsServices;
-import com.joaootavios.crystolnetwork.essentials.utils.EssentialsConfig;
+import me.joao.guerra.command.GuerraCommand;
+import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -18,17 +18,17 @@ import rcore.plugin.RPlugin;
 import rcore.score.Assemble;
 import rcore.score.AssembleAdapter;
 import rcore.specificutils.ListUtil;
-import rcore.specificutils.PlayerUtil;
+import rcore.util.ConfigManager;
 import rcore.util.RU;
 
 import java.util.List;
 
 public class EssentialsPlugin extends RPlugin {
 
-    public static EssentialsConfig config;
     private Server server;
     private BukkitScheduler bukkitScheduler;
-
+    public static ConfigManager config;
+    private ConfigManager scoreboard;
     public EssentialsPlugin() {
         super("CrystolEssentials", "JoaoOtavioS & WalkGS");
     }
@@ -37,41 +37,24 @@ public class EssentialsPlugin extends RPlugin {
     public void onPreStart() {
         server = getServer();
         bukkitScheduler = server.getScheduler();
-        config = EssentialsServices.getInstance().getServerConfig().getEssentialsConfig();
     }
 
     @Override
     public void onStart() {
 
         // Registrando comandos e eventos.
-        verifyDefaultConfig();
+        registerDefaultConfig();
+        registerScoreBoard();
+        ExperienceAPI.loadAll();
+
         registerCommands();
         registerListeners();
-        registerScoreBoard();
-
-        ExperienceAPI.loadAll();
 
     }
 
     @Override
     public void onStop() {
         bukkitScheduler.cancelAllTasks();
-    }
-
-    private void verifyDefaultConfig() {
-        if (!config.existBoolean("warp-vip")) {
-            config.setBoolean("warp-spawn", true);
-            config.setBoolean("warp-shop", true);
-            config.setBoolean("warp-vip", false);
-            config.setBoolean("disable-weather", true);
-            config.setBoolean("disable-falling-blocks", true);
-            config.setBoolean("disable-food-event", true);
-            config.setBoolean("disable-bad-events", true);
-            config.setBoolean("scoreboard-active", true);
-            config.setString("scoreboard-title", "&e&lCrystolNetwork");
-            config.setStringList("scoreboard-lines", ListUtil.getStringList(" ", " <f>Nome: <e><player>", " <f>Latência: <ping-color>ms", " "," <f>Status: <andamento>", " ", " <f>Vivos: <jogadoresvivos>", " ", "<e>crystolnetwork.com"));
-            config.setInt("scoreboard-update-ticks", 20);
-        }
     }
 
     private void registerCommands() {
@@ -84,32 +67,68 @@ public class EssentialsPlugin extends RPlugin {
         setListeners(new BadEventsListener(), new EnderPearlListener(), new EntityChangeBlockListener(), new WeatherChangeListener());
     }
 
+    private void registerDefaultConfig() {
+        config = new ConfigManager(this, "config.yml");
+        if (!config.contains("warp-vip")) {
+            config.set("warp-spawn", true);
+            config.set("warp-shop", true);
+            config.set("warp-vip", false);
+            config.set("disable-weather", true);
+            config.set("disable-falling-blocks", true);
+            config.set("disable-food-event", true);
+            config.set("disable-bad-events", true);
+            config.set("disable-enderpearl-cooldown", false);
+            config.set("enderpearl-cooldown", 5L);
+
+        }
+        if (config.contains("spawn")) config.setLocation("spawn", config.getLocation("spawn"));
+        if (config.contains("shop")) config.setLocation("shop", config.getLocation("shop"));
+        if (config.contains("vip")) config.setLocation("vip", config.getLocation("vip"));
+
+        config.save();
+        config.load();
+    }
+
     public void registerScoreBoard() {
-        if (config.getBoolean("scoreboard-active") == true) {
+        scoreboard = new ConfigManager(this, "scoreboard.yml");
+        if (!scoreboard.contains("scoreboard-update-ticks")) {
+            scoreboard.set("scoreboard-active", true);
+            scoreboard.set("compatible-with-crystolguerra", false);
+            scoreboard.setString("scoreboard-title", "&e&lCrystolNetwork");
+            scoreboard.set("scoreboard-lines", ListUtil.getStringList(" ", " <f>Nome: <e><player>", " <f>Latência: <ping-color>", " ", " <f>Jogadores: <onlines>", " ", "<e>crystolnetwork.com"));
+            scoreboard.set("scoreboard-update-ticks", 40);
+        }
+        scoreboard.save();
+        scoreboard.load();
 
+        if (scoreboard.getBoolean("scoreboard-active") == true) {
             Assemble score = new Assemble(this, new AssembleAdapter() {
-                @Override public String getTitle(Player player) {
-                    return config.getString("scoreboard-title");
-                }
 
+                @Override public String getTitle(Player player) {
+                    return scoreboard.getString("scoreboard-title");
+                }
                 @Override public List<String> getLines(Player player) {
-                    if (RU.serverVersion.equals(".v1_8_R3.")) {
+                    if (scoreboard.getBoolean("compatible-with-crystolguerra") == true) {
+                        if (!GuerraCommand.guerrapeoples.containsValue(player.getUniqueId())) return null;
+                    }
+                    if (RU.serverVersion.equals(".v1_8_R3.") || RU.serverVersion.equals("v1_8_R3")) {
                         int ping = ((CraftPlayer) player).getHandle().ping;
                         String pingcolor = "&a";
                         if (ping > 150) pingcolor = "&c";
                         String corfinal = pingcolor;
 
-                        List<String> stringlist = ListUtil.getColorizedStringList(config.getStringList("scoreboard-lines"));
-                        stringlist.replaceAll(a -> a.replace("<player>", player.getName()));
+                        List<String> stringlist = ListUtil.getColorizedStringList(scoreboard.getStringList("scoreboard-lines"));
+                        stringlist.replaceAll(a -> a.replace("<player>", player.getName()).replace("<onlines>", ""+Bukkit.getOnlinePlayers().size()).replace("<ping>", ""+ping+"ms").replace("<ping-color>", "" + corfinal + ping+"ms"));
                         return stringlist;
                     } else {
-                        List<String> stringlist = ListUtil.getColorizedStringList(config.getStringList("scoreboard-lines"));
-                        stringlist.replaceAll(a -> a.replace("<player>", player.getName()));
+                        List<String> stringlist = ListUtil.getColorizedStringList(scoreboard.getStringList("scoreboard-lines"));
+                        stringlist.replaceAll(a -> a.replace("<player>", player.getName()).replace("<onlines>", ""+Bukkit.getOnlinePlayers().size()).replace("<ping>", "&cOnly 1.8.8").replace("<ping-color>", "&cOnly 1.8.8"));
                         return stringlist;
                     }
                 }
             });
-            score.scoreUpdateTick = config.getInt("scoreboard-update-ticks");
+            score.scoreUpdateTick = scoreboard.getInt("scoreboard-update-ticks");
         }
     }
+
 }
