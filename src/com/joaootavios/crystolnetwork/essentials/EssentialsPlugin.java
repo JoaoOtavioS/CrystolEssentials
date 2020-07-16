@@ -1,12 +1,11 @@
 package com.joaootavios.crystolnetwork.essentials;
 
+import com.joaootavios.crystolnetwork.essentials.services.EssentialsServices;
+import com.joaootavios.crystolnetwork.essentials.utils.EssentialsConfig;
 import com.joaootavios.crystolnetwork.essentials.commands.warps.Shop;
 import com.joaootavios.crystolnetwork.essentials.commands.warps.Spawn;
 import com.joaootavios.crystolnetwork.essentials.commands.warps.Vip;
 import com.joaootavios.crystolnetwork.essentials.experienceapi.ExperienceAPI;
-import com.joaootavios.crystolnetwork.essentials.services.EssentialsServices;
-import com.joaootavios.crystolnetwork.essentials.utils.EssentialsConfig;
-import com.joaootavios.crystolnetwork.essentials.utils.Messages;
 import org.bukkit.Server;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -75,63 +74,5 @@ public class EssentialsPlugin extends RPlugin {
 
     public void startScoreBoard() {
 
-
-
-
-
-
-
-
-
-
-
-        if (scoreboard.getBoolean("scoreboard-active")) {
-            Assemble score = new Assemble(Main.getPlugin(), new AssembleAdapter() {
-                @Override
-                public String getTitle(Player player) {
-                    return Main.scoreboard.getString("scoreboard-title");
-                }
-
-                @Override
-                public List<String> getLines(Player player) {
-                    if (!GuerraCommand.guerrapeoples.containsKey(player.getUniqueId())) {
-                        return null;
-                    } else {
-                        if (SERVER_VERSION.SERVER_PACKAGE_VERSION.equals(".v1_8_R3.")) {
-                            int ping = ((CraftPlayer) player).getHandle().ping;
-                            String pingcolor = "&a";
-                            if (ping > 150) pingcolor = "&c";
-                            String corfinal = pingcolor;
-                            if (config.getString("modo-de-jogo").equals("mambafactions")) PlayerUtil.sendActionBar(player, "&c&l[GUERRA] &fLatência: " + corfinal + ping + "ms&7 | &fStatus: " + andamento + " &7| &fFacções: " + GuerraCommand.guerrafactionssize.size() + " &7| &f Jogadores: " + GuerraCommand.guerrapeoples.size());
-                            if (config.getString("modo-de-jogo").equals("free-for-all")) PlayerUtil.sendActionBar(player, "&c&l[GUERRA] &fLatência: " + corfinal + ping + "ms&7 | &fStatus: " + andamento + " &7| &f Jogadores: " + GuerraCommand.guerrapeoples.size());
-
-                            List<String> stringlist = ListUtil.getColorizedStringList(Main.scoreboard.getStringList("scoreboard-lines"));
-                            stringlist.replaceAll(a -> a.replace("<player>", player.getName()));
-                            stringlist.replaceAll(a -> a.replace("<jogadoresvivos>", "" + GuerraCommand.guerrapeoples.size()));
-                            stringlist.replaceAll(a -> a.replace("<andamento>", "" + andamento));
-                            stringlist.replaceAll(a -> a.replace("<ping>", "" + ping));
-                            stringlist.replaceAll(a -> a.replace("<ping-color>", "" + corfinal + ping));
-                            stringlist.replaceAll(a -> a.replace("<facs>", "" + GuerraCommand.guerrafactionssize.size()));
-                            return stringlist;
-                        } else {
-                            List<String> stringlist = ListUtil.getColorizedStringList(Main.scoreboard.getStringList("scoreboard-lines"));
-                            stringlist.replaceAll(a -> a.replace("<player>", player.getName()));
-                            stringlist.replaceAll(a -> a.replace("<jogadoresvivos>", "" + GuerraCommand.guerrapeoples.size()));
-                            stringlist.replaceAll(a -> a.replace("<andamento>", "" + andamento));
-                            stringlist.replaceAll(a -> a.replace("<ping>", "&cInsuportável"));
-                            stringlist.replaceAll(a -> a.replace("<ping-color>", "&cInsuportável"));
-                            stringlist.replaceAll(a -> a.replace("<facs>", "" + GuerraCommand.guerrafactionssize.size()));
-                            return stringlist;
-                        }
-                    }
-                }
-            });
-
-            if (scoreboard.getBoolean("force-score-send") == true) {
-                score.scoreUpdateTick = 1;
-            } else {
-                score.scoreUpdateTick = Main.scoreboard.getInt("scoreboard-update-ticks");
-            }
-        }
     }
 }

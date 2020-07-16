@@ -2,7 +2,6 @@ package com.joaootavios.crystolnetwork.essentials.commands.staff;
 
 import com.joaootavios.crystolnetwork.essentials.services.EssentialsServices;
 import com.joaootavios.crystolnetwork.essentials.utils.EssentialsConfig;
-import com.joaootavios.crystolnetwork.essentials.utils.ServerConfig;
 import rcore.command.RCommand;
 import rcore.command.requirement.Req;
 
