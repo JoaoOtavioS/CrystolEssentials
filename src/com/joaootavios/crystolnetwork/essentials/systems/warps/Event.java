@@ -1,35 +1,28 @@
-package com.joaootavios.crystolnetwork.essentials.commands.warps;
+package com.joaootavios.crystolnetwork.essentials.systems.warps;
 
 import com.joaootavios.crystolnetwork.essentials.EssentialsPlugin;
 import com.joaootavios.crystolnetwork.essentials.utils.Messages;
 import rcore.command.RCommand;
 import rcore.command.subcommand.RSubCommand;
 import rcore.util.Sound;
-
 import java.util.List;
 
-public class Vip extends RCommand {
+import static me.joao.guerra.Main.config;
 
-    { addSubCommand(new VipSet()); }
+public class Event extends RCommand {
 
-    @Override
-    public String getCommand() {
-        return "vip";
+    { addSubCommand(new EventSet()); setAliases("event");}
+
+    @Override public String getCommand() {
+        return "evento";
     }
-
-    @Override
-    public void perform() {
-        if (!hasPermission("crystolnetwork.vip")) {
-            sendNoMessage(Messages.ERRORNOVIP.getMessage());
-            return;
-        }
-        if (EssentialsPlugin.config.getBoolean("warp-vip") == false) {
+    @Override public void perform() {
+        if (EssentialsPlugin.config.getBoolean("warp-event") == false) {
             sendNoMessage(Messages.ERRORLOCDISABLE.getMessage());
             return;
         }
-
-        if (EssentialsPlugin.config.contains("vip"))
-            asPlayer().teleport(EssentialsPlugin.config.getLocation("vip"));
+        if (EssentialsPlugin.config.contains("event"))
+            asPlayer().teleport(EssentialsPlugin.config.getLocation("event"));
         else
             sendNoMessage(Messages.ERRORLOC.getMessage());
     }
@@ -38,7 +31,7 @@ public class Vip extends RCommand {
         return null;
     }
 
-    private class VipSet extends RSubCommand {
+    private class EventSet extends RSubCommand {
         { setAliases("definir", "setar");setPermission("crystolnetwork.gerente"); }
 
         @Override public String getSubCommand() {
@@ -47,7 +40,8 @@ public class Vip extends RCommand {
         @Override public void perform() {
             sendTitle("", "&aLocalização definida.", 5, 30, 5);
             playSound(Sound.ENTITY_VILLAGER_YES, 1, 1);
-            EssentialsPlugin.config.setLocation("vip", asPlayer().getLocation());
+            EssentialsPlugin.config.setLocation("event", asPlayer().getLocation());
+            config.save();
         }
         @Override public List<String> tabComplete() {
             return null;

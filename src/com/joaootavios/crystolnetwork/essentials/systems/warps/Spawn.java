@@ -1,4 +1,4 @@
-package com.joaootavios.crystolnetwork.essentials.commands.warps;
+package com.joaootavios.crystolnetwork.essentials.systems.warps;
 
 import com.joaootavios.crystolnetwork.essentials.EssentialsPlugin;
 import com.joaootavios.crystolnetwork.essentials.utils.Messages;
@@ -8,20 +8,22 @@ import rcore.util.Sound;
 
 import java.util.List;
 
-public class Shop extends RCommand {
+import static me.joao.guerra.Main.config;
 
-    { addSubCommand(new ShopSet());setAliases("loja"); }
+public class Spawn extends RCommand {
+
+    { addSubCommand(new SpawnSet()); }
 
     @Override public String getCommand() {
-        return "shop";
+        return "spawn";
     }
     @Override public void perform() {
-        if (EssentialsPlugin.config.getBoolean("warp-shop") == false) {
+        if (EssentialsPlugin.config.getBoolean("warp-spawn") == false) {
             sendNoMessage(Messages.ERRORLOCDISABLE.getMessage());
             return;
         }
-        if (EssentialsPlugin.config.contains("shop"))
-            asPlayer().teleport(EssentialsPlugin.config.getLocation("shop"));
+        if (EssentialsPlugin.config.contains("spawn"))
+            asPlayer().teleport(EssentialsPlugin.config.getLocation("spawn"));
         else
             sendNoMessage(Messages.ERRORLOC.getMessage());
     }
@@ -30,8 +32,8 @@ public class Shop extends RCommand {
         return null;
     }
 
-    private class ShopSet extends RSubCommand {
-        { setAliases("definir", "setar");setPermission("crystolnetwork.gerente"); }
+    private class SpawnSet extends RSubCommand {
+        { setAliases("definir", "setar"); setPermission("crystolnetwork.gerente"); }
 
         @Override public String getSubCommand() {
             return "set";
@@ -39,7 +41,8 @@ public class Shop extends RCommand {
         @Override public void perform() {
             sendTitle("", "&aLocalização definida.", 5, 30, 5);
             playSound(Sound.ENTITY_VILLAGER_YES, 1, 1);
-            EssentialsPlugin.config.setLocation("shop", asPlayer().getLocation());
+            EssentialsPlugin.config.setLocation("spawn", asPlayer().getLocation());
+            config.save();
         }
         @Override public List<String> tabComplete() {
             return null;
