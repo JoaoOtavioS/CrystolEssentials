@@ -1,9 +1,7 @@
 package com.joaootavios.crystolnetwork.essentials;
 
 import com.joaootavios.crystolnetwork.essentials.commands.staff.CrystolNetwork;
-import com.joaootavios.crystolnetwork.essentials.commands.warps.Shop;
-import com.joaootavios.crystolnetwork.essentials.commands.warps.Spawn;
-import com.joaootavios.crystolnetwork.essentials.commands.warps.Vip;
+import com.joaootavios.crystolnetwork.essentials.commands.warps.*;
 import com.joaootavios.crystolnetwork.essentials.experienceapi.ExperienceAPI;
 import com.joaootavios.crystolnetwork.essentials.listeners.BadEventsListener;
 import com.joaootavios.crystolnetwork.essentials.listeners.EnderPearlListener;
@@ -62,7 +60,6 @@ public class EssentialsPlugin extends RPlugin {
 
         registerCommands();
         registerListeners();
-
     }
 
     @Override
@@ -74,6 +71,8 @@ public class EssentialsPlugin extends RPlugin {
         if (config.getBoolean("warp-spawn") == true) registerCommand(new Spawn());
         if (config.getBoolean("warp-shop") == true) registerCommand(new Shop());
         if (config.getBoolean("warp-vip") == true) registerCommand(new Vip());
+        if (config.getBoolean("warp-arena") == true) registerCommand(new Arena());
+        if (config.getBoolean("warp-event") == true) registerCommand(new Event());
         registerCommands(new CrystolNetwork());
     }
 
@@ -89,6 +88,8 @@ public class EssentialsPlugin extends RPlugin {
             config.set("warp-spawn", true);
             config.set("warp-shop", true);
             config.set("warp-vip", false);
+            config.set("warp-arena", false);
+            config.set("warp-event", false);
             config.set("disable-weather", true);
             config.set("disable-falling-blocks", true);
             config.set("disable-food-event", true);
@@ -102,6 +103,7 @@ public class EssentialsPlugin extends RPlugin {
         if (config.contains("spawn")) config.setLocation("spawn", config.getLocation("spawn"));
         if (config.contains("shop")) config.setLocation("shop", config.getLocation("shop"));
         if (config.contains("vip")) config.setLocation("vip", config.getLocation("vip"));
+        if (config.contains("arena")) config.setLocation("arena", config.getLocation("arena"));
 
         config.save();
         config.load();
