@@ -1,16 +1,15 @@
 package com.joaootavios.crystolnetwork.essentials;
 
+import com.joaootavios.crystolnetwork.essentials.commands.members.Lanterna;
 import com.joaootavios.crystolnetwork.essentials.commands.staff.CrystolNetwork;
-import com.joaootavios.crystolnetwork.essentials.commands.warps.*;
+import com.joaootavios.crystolnetwork.essentials.commands.staff.Gamemode;
+import com.joaootavios.crystolnetwork.essentials.listeners.*;
+import com.joaootavios.crystolnetwork.essentials.systems.chats.LocalChat;
+import com.joaootavios.crystolnetwork.essentials.systems.warps.*;
 import com.joaootavios.crystolnetwork.essentials.experienceapi.ExperienceAPI;
-import com.joaootavios.crystolnetwork.essentials.listeners.BadEventsListener;
-import com.joaootavios.crystolnetwork.essentials.listeners.EnderPearlListener;
-import com.joaootavios.crystolnetwork.essentials.listeners.EntityChangeBlockListener;
-import com.joaootavios.crystolnetwork.essentials.listeners.WeatherChangeListener;
 import com.joaootavios.crystolnetwork.essentials.systems.StackMobs;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPlayer;
-import dev.walk.economy.Manager.Account;
 import dev.walk.economy.Manager.AccountManager;
 import dev.walk.economy.Util.EconomyUtils;
 import me.joao.guerra.command.GuerraCommand;
@@ -73,18 +72,22 @@ public class EssentialsPlugin extends RPlugin {
         if (config.getBoolean("warp-vip") == true) registerCommand(new Vip());
         if (config.getBoolean("warp-arena") == true) registerCommand(new Arena());
         if (config.getBoolean("warp-event") == true) registerCommand(new Event());
-        registerCommands(new CrystolNetwork());
+        registerCommands(new CrystolNetwork(), new Gamemode(), new Lanterna());
     }
 
     private void registerListeners() {
-        setListeners(new BadEventsListener(), new EntityChangeBlockListener(), new WeatherChangeListener());
+        setListeners(new BadEventsListener(), new EntityChangeBlockListener(), new WeatherChangeListener(), new LocalChat());
         if (config.getBoolean("enable-stackmobs") == true) setListener(new StackMobs());
         if (config.getBoolean("disable-enderpearl-cooldown") == false) setListener(new EnderPearlListener());
+        if (config.getBoolean("tablist-enable") == true) setListener(new PlayerJoinListener());
     }
 
     private void registerDefaultConfig() {
         config = new ConfigManager(this, "config.yml");
         if (!config.contains("warp-vip")) {
+            config.set("tablist-enable", true);
+            config.set("tablist-header", ListUtil.getStringList(" ", "&e&lCRYSTOLNETWORK ", " "));
+            config.set("tablist-footer", ListUtil.getStringList(" ", "&eIP: &fcrystolnetwork.com ", "&eWeb: &floja.crystolnetwork.com ", " "));
             config.set("warp-spawn", true);
             config.set("warp-shop", true);
             config.set("warp-vip", false);
@@ -98,6 +101,7 @@ public class EssentialsPlugin extends RPlugin {
             config.set("enable-stackmobs", true);
             config.set("stackmobs-limit", 1000);
             config.set("enderpearl-cooldown", 5L);
+            config.set("compatible-with-factions", true);
 
         }
         if (config.contains("spawn")) config.setLocation("spawn", config.getLocation("spawn"));
@@ -109,7 +113,7 @@ public class EssentialsPlugin extends RPlugin {
         config.load();
     }
 
-    public void registerScoreBoard() {
+    private void registerScoreBoard() {
         scoreboard = new ConfigManager(this, "scoreboard.yml");
         if (!scoreboard.contains("scoreboard-update-ticks")) {
             scoreboard.set("scoreboard-active", true);
@@ -140,8 +144,8 @@ public class EssentialsPlugin extends RPlugin {
                     final double coins = (hasEconomyPlugin ? new AccountManager(player.getUniqueId()).getInstance().getMoney() : -1);
 
                     if (scoreboard.getBoolean("compatible-with-factions") == true) {
-                        MPlayer mp = MPlayer.get(player.getUniqueId());
-                        Faction faction = mp.getFaction();
+                        final MPlayer mp = MPlayer.get(player.getUniqueId());
+                        final Faction faction = mp.getFaction();
                         if (mp.hasFaction()) {
                             List<String> stringlist = ListUtil.getColorizedStringList(scoreboard.getStringList("scoreboard-lines-hasfac"));
                             stringlist.replaceAll(a -> a.replace("<player>", player.getName()).replace("<onlines>", "" + Bukkit.getOnlinePlayers().size()).replace("<ping>", (ping == -1 ? "&cOnly 1.8.8" : pingcolor +ping + "ms")).replace("<faction_name>", faction.getColor()+"["+faction.getTag()+"] "+faction.getName()).replace("<faction_online>", faction.getOnlinePlayers().size()+"/"+faction.getMPlayers().size()).replace("<faction_power>", faction.getPowerRounded()+"/"+faction.getPowerMaxRounded()).replace("<faction_land>", ""+faction.getLandCount()).replace("<player_power>", mp.getPowerRounded()+"/"+mp.getPowerMaxRounded()).replace("<coins>", (hasEconomyPlugin ? (coins > 0 ? new EconomyUtils().formatMoney(coins) : "&cNenhum") : "&cNot found")));
