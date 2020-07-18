@@ -40,15 +40,16 @@ public class LocalChat implements Listener {
             playerBase = services.getPlayerBase();
         }
 
+        final String economy = (hasEconomyPlugin ? (new Magnata().isMagnata(new AccountManager(player.getUniqueId()).getInstance()) ? "<2>[$] " : "") : "&c[Economy not found]&r");
+        final String cargo = (hasOfficePlugin ? playerBase.getUser(player).getLargestGroup().getPrefix() : "&c[Offices not found]&r");
+        List<Player> recipients = new ArrayList<>();
+
         if (EssentialsPlugin.config.getBoolean("compatible-with-factions") == true) {
             final MPlayer mp = MPlayer.get(player.getUniqueId());
             final String factionTag = mp.hasFaction() ? TXT.parse(" &7[&f" + mp.getFaction().getColor() + mp.getFactionTag() + "&7]") : TXT.parse("");
             final String factionRole = mp.hasFaction() ? TXT.parse("&7") + mp.getRole().getPrefix() : "";
-            final String economy = (hasEconomyPlugin ? (new Magnata().isMagnata(new AccountManager(player.getUniqueId()).getInstance()) ? "<2>[$] " : "") : "&c[Economy not found]&r");
-            final String cargo = (hasOfficePlugin ? playerBase.getUser(player).getLargestGroup().getPrefix() : "&c[Offices not found]&r");
             final String formatedMessage = TXT.parse("&e[L] &r"+ economy + factionTag + " " + cargo + " " + factionRole + player.getName() + " &f» &e" + e.getMessage());
 
-            List<Player> recipients = new ArrayList<>();
             player.getNearbyEntities(localChatRange, localChatRange, localChatRange).forEach(en -> {
                 if (en.getType() == EntityType.PLAYER && en != player) {
                     recipients.add((Player) en);
@@ -68,11 +69,7 @@ public class LocalChat implements Listener {
             recipients.add(player);
             recipients.forEach(a -> a.sendMessage(formatedMessage));
         } else {
-            final String economy = (hasEconomyPlugin ? (new Magnata().isMagnata(new AccountManager(player.getUniqueId()).getInstance()) ? "<2>[$] " : "") : "&c[Economy not found]&r");
-            final String cargo = playerBase.getUser(player).getLargestGroup().getPrefix();
             final String formatedMessage = TXT.parse("&e[L] &r"+ economy  + " " + cargo + " " + player.getName() + " &f» &e" + e.getMessage());
-
-            List<Player> recipients = new ArrayList<>();
             player.getNearbyEntities(localChatRange, localChatRange, localChatRange).forEach(en -> {
                 if (en.getType() == EntityType.PLAYER && en != player) {
                     recipients.add((Player) en);
@@ -93,5 +90,4 @@ public class LocalChat implements Listener {
             recipients.forEach(a -> a.sendMessage(formatedMessage));
         }
     }
-
 }
