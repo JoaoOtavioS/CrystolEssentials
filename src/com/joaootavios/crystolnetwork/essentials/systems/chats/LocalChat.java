@@ -44,9 +44,7 @@ public class LocalChat implements Listener {
         final String cargo = (hasOfficePlugin ? playerBase.getUser(player).getLargestGroup().getPrefix() : "&c[Offices not found]&r");
         List<Player> recipients = new ArrayList<>();
         player.getNearbyEntities(localChatRange, localChatRange, localChatRange).forEach(en -> {
-            if (en.getType() == EntityType.PLAYER && en != player) {
-                recipients.add((Player) en);
-            }
+            if (en.getType() == EntityType.PLAYER && en != player) recipients.add((Player) en);
         });
         if (recipients.isEmpty()) {
             PlayerUtil.playSound(player, Sound.ENTITY_VILLAGER_NO);
