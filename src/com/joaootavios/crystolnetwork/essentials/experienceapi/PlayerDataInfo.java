@@ -25,7 +25,7 @@ public class PlayerDataInfo {
 
         public DataInfo(UUID uuid) {
             this.uuid = uuid;
-            gson = new GsonManager(EssentialsPlugin.getPlugin(EssentialsPlugin.class).getDataFolder() + "/DataInfos", uuid + "-datainfo").prepareGson();
+            gson = new GsonManager(EssentialsPlugin.getPlugin(EssentialsPlugin.class).getDataFolder() + "/database", uuid + "-datainfo").prepareGson();
         }
 
         public DataInfo set(String path, Object... values) {

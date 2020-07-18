@@ -189,7 +189,7 @@ public class ExperienceAPI {
     }
 
     public static void loadAll() {
-        GsonManager gson = new GsonManager(EssentialsPlugin.getPlugin(EssentialsPlugin.class).getDataFolder() + "/DataInfos", "");
+        GsonManager gson = new GsonManager(EssentialsPlugin.getPlugin(EssentialsPlugin.class).getDataFolder() + "/database", "");
         File[] files = gson.getFiles();
         if (files != null) {
             for (File file : files) {
