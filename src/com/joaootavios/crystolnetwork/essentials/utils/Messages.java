@@ -5,6 +5,7 @@ public enum Messages {
     ERRORLOC("&cLocalização não definida."),
     ERRORLOCDISABLE("&cLocalização desabilitada."),
     ERRORNOVIP("&cVocê não possuí o VIP necessário para tal ato"),
+    ERRORPLAYEROFFLINE("&cJogador inexistente."),
     ERRORGENERIC("&cUm erro não identificado aconteceu.");
 
     private final String message;
