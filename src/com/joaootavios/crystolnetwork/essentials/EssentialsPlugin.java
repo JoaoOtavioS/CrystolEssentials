@@ -2,11 +2,13 @@ package com.joaootavios.crystolnetwork.essentials;
 
 import com.joaootavios.crystolnetwork.essentials.commands.members.Lanterna;
 import com.joaootavios.crystolnetwork.essentials.commands.members.Lixeira;
+import com.joaootavios.crystolnetwork.essentials.commands.members.PoteXP;
 import com.joaootavios.crystolnetwork.essentials.commands.staff.CrystolNetwork;
 import com.joaootavios.crystolnetwork.essentials.commands.staff.Gamemode;
 import com.joaootavios.crystolnetwork.essentials.listeners.*;
 import com.joaootavios.crystolnetwork.essentials.systems.chats.GlobalChat;
 import com.joaootavios.crystolnetwork.essentials.systems.chats.LocalChat;
+import com.joaootavios.crystolnetwork.essentials.systems.chats.Tell;
 import com.joaootavios.crystolnetwork.essentials.systems.warps.*;
 import com.joaootavios.crystolnetwork.essentials.experienceapi.ExperienceAPI;
 import com.joaootavios.crystolnetwork.essentials.systems.StackMobs;
@@ -75,7 +77,12 @@ public class EssentialsPlugin extends RPlugin {
         if (config.getBoolean("warp-vip") == true) registerCommand(new Vip());
         if (config.getBoolean("warp-arena") == true) registerCommand(new Arena());
         if (config.getBoolean("warp-event") == true) registerCommand(new Event());
-        registerCommands(new CrystolNetwork(), new Gamemode(), new Lanterna(), new Lixeira(), new GlobalChat());
+
+        // perae
+        registerCommands(
+                new CrystolNetwork(), new Gamemode(),
+                new Lanterna(), new Lixeira(),
+                new GlobalChat(), new Tell(), new PoteXP());
     }
 
     private void registerListeners() {
@@ -94,6 +101,12 @@ public class EssentialsPlugin extends RPlugin {
             config.set("tablist-enable", true);
             config.set("tablist-header", ListUtil.getStringList(" ", "&e&lCRYSTOLNETWORK ", " "));
             config.set("tablist-footer", ListUtil.getStringList(" ", "&eIP: &fcrystolnetwork.com ", "&eWeb: &floja.crystolnetwork.com ", " "));
+            config.set("title-on-join", true);
+            config.set("title-on-join-fadein", 10);
+            config.set("title-on-join-stay", 40);
+            config.set("title-on-join-fadeout", 10);
+            config.set("title-on-join-title", "&e&lCrystolNetwork");
+            config.set("title-on-join-subtitle", "&fEstá funcionando, corno!");
             config.set("warp-spawn", true);
             config.set("warp-shop", true);
             config.set("warp-vip", false);
@@ -103,10 +116,14 @@ public class EssentialsPlugin extends RPlugin {
             config.set("disable-falling-blocks", true);
             config.set("disable-food-event", true);
             config.set("disable-bad-events", true);
+            config.set("disable-natural-spawn-mobs", true);
             config.set("disable-enderpearl-cooldown", false);
             config.set("enable-stackmobs", true);
             config.set("stackmobs-limit", 1000);
             config.set("enderpearl-cooldown", 5L);
+            config.set("cooldown_tell", 3L);
+            config.set("localchat-no-entity", false);
+            config.set("localchat-no-entity-msg", "&cNão há jogadores próximos para ler sua mensagem.");
 
         }
         if (config.contains("spawn")) config.setLocation("spawn", config.getLocation("spawn"));
@@ -135,6 +152,7 @@ public class EssentialsPlugin extends RPlugin {
 
         final boolean compatible = RU.serverVersion.equals(".v1_8_R3.") || RU.serverVersion.equals("v1_8_R3");
         final boolean hasEconomyPlugin = getServer().getPluginManager().getPlugin("CrystolEconomy") != null;
+        final boolean hasFactionPlugin = getServer().getPluginManager().getPlugin("Factions") != null;
 
         if (scoreboard.getBoolean("scoreboard-active") == true) {
             Assemble score = new Assemble(this, new AssembleAdapter() {
@@ -149,18 +167,27 @@ public class EssentialsPlugin extends RPlugin {
                     final double coins = (hasEconomyPlugin ? new AccountManager(player.getUniqueId()).getInstance().getMoney() : -1);
 
                     if (scoreboard.getBoolean("compatible-with-factions") == true) {
-                        final MPlayer mp = MPlayer.get(player.getUniqueId());
-                        final Faction faction = mp.getFaction();
-                        if (mp.hasFaction()) {
-                            List<String> stringlist = ListUtil.getColorizedStringList(scoreboard.getStringList("scoreboard-lines-hasfac"));
-                            stringlist.replaceAll(a -> a.replace("<player>", player.getName()).replace("<onlines>", "" + Bukkit.getOnlinePlayers().size()).replace("<ping>", (ping == -1 ? "&cOnly 1.8.8" : pingcolor +ping + "ms")).replace("<faction_name>", faction.getColor()+"["+faction.getTag()+"] "+faction.getName()).replace("<faction_online>", faction.getOnlinePlayers().size()+"/"+faction.getMPlayers().size()).replace("<faction_power>", faction.getPowerRounded()+"/"+faction.getPowerMaxRounded()).replace("<faction_land>", ""+faction.getLandCount()).replace("<player_power>", mp.getPowerRounded()+"/"+mp.getPowerMaxRounded()).replace("<coins>", (hasEconomyPlugin ? (coins > 0 ? new EconomyUtils().formatMoney(coins) : "&cNenhum") : "&cNot found")).replace("<nivel>", ""+(ExperienceAPI.getTotalLevels(player) == 0 ? "&cNenhum" : ExperienceAPI.getTotalLevels(player))));
-                            return stringlist;
-                        } else {
-                            List<String> stringlist = ListUtil.getColorizedStringList(scoreboard.getStringList("scoreboard-lines-nofac"));
-                                stringlist.replaceAll(a -> a.replace("<player>", player.getName()).replace("<onlines>", "" + Bukkit.getOnlinePlayers().size()).replace("<ping>", (ping == -1 ? "&cOnly 1.8.8" : pingcolor +ping + "ms")).replace("<coins>", (hasEconomyPlugin ? (coins > 0 ? new EconomyUtils().formatMoney(coins) : "&cNenhum") : "&cNot found")).replace("<nivel>", ""+(ExperienceAPI.getTotalLevels(player) == 0 ? "&cNenhum" : ExperienceAPI.getTotalLevels(player))));
-                            return stringlist;
+                        if (hasFactionPlugin) {
+                            final MPlayer mp = MPlayer.get(player.getUniqueId());
+                            final Faction faction = mp.getFaction();
+                            if (mp.hasFaction()) {
+                                List<String> stringlist = ListUtil.getColorizedStringList(scoreboard.getStringList("scoreboard-lines-hasfac"));
+                                stringlist.replaceAll(a -> a.replace("<player>", player.getName()).replace("<onlines>", "" + Bukkit.getOnlinePlayers().size()).replace("<ping>", (ping == -1 ? "&cOnly 1.8.8" : pingcolor + ping + "ms")).replace("<faction_name>", faction.getColor() + "[" + faction.getTag() + "] " + faction.getName()).replace("<faction_online>", faction.getOnlinePlayers().size() + "/" + faction.getMPlayers().size()).replace("<faction_power>", faction.getPowerRounded() + "/" + faction.getPowerMaxRounded()).replace("<faction_land>", "" + faction.getLandCount()).replace("<player_power>", mp.getPowerRounded() + "/" + mp.getPowerMaxRounded()).replace("<coins>", (hasEconomyPlugin ? (coins > 0 ? new EconomyUtils().formatMoney(coins) : "&cNenhum") : "&cNot found")).replace("<nivel>", "" + (ExperienceAPI.getTotalLevels(player) == 0 ? "&cNenhum" : ExperienceAPI.getTotalLevels(player))));
+                                return stringlist;
+                            } else {
+                                List<String> stringlist = ListUtil.getColorizedStringList(scoreboard.getStringList("scoreboard-lines-nofac"));
+                                stringlist.replaceAll(a -> a.replace("<player>", player.getName()).replace("<onlines>", "" + Bukkit.getOnlinePlayers().size()).replace("<ping>", (ping == -1 ? "&cOnly 1.8.8" : pingcolor + ping + "ms")).replace("<coins>", (hasEconomyPlugin ? (coins > 0 ? new EconomyUtils().formatMoney(coins) : "&cNenhum") : "&cNot found")).replace("<nivel>", "" + (ExperienceAPI.getTotalLevels(player) == 0 ? "&cNenhum" : ExperienceAPI.getTotalLevels(player))));
+                                return stringlist;
+                            }
                         }
+
+                        // No Compatible Factions
+                        List<String> stringlist = ListUtil.getColorizedStringList(scoreboard.getStringList("scoreboard-lines"));
+                        stringlist.replaceAll(a -> a.replace("<player>", player.getName()).replace("<onlines>", "" + Bukkit.getOnlinePlayers().size()).replace("<ping>", (ping == -1 ? "&cOnly 1.8.8" : pingcolor + ping + "ms")).replace("<coins>", (hasEconomyPlugin ? (coins > 0 ? new EconomyUtils().formatMoney(coins) : "&cNenhum") : "&cNot found")).replace("<nivel>", ""+(ExperienceAPI.getTotalLevels(player) == 0 ? "&cNenhum" : ExperienceAPI.getTotalLevels(player))));
+                        return stringlist;
+
                     } else {
+
                         // No Compatible Factions
                         List<String> stringlist = ListUtil.getColorizedStringList(scoreboard.getStringList("scoreboard-lines"));
                         stringlist.replaceAll(a -> a.replace("<player>", player.getName()).replace("<onlines>", "" + Bukkit.getOnlinePlayers().size()).replace("<ping>", (ping == -1 ? "&cOnly 1.8.8" : pingcolor + ping + "ms")).replace("<coins>", (hasEconomyPlugin ? (coins > 0 ? new EconomyUtils().formatMoney(coins) : "&cNenhum") : "&cNot found")).replace("<nivel>", ""+(ExperienceAPI.getTotalLevels(player) == 0 ? "&cNenhum" : ExperienceAPI.getTotalLevels(player))));
