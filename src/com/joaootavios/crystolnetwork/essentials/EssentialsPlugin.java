@@ -98,6 +98,14 @@ public class EssentialsPlugin extends RPlugin {
         if (!config.contains("warp-vip")) {
             config.set("chat-global-enable", true);
             config.set("chat-local-enable", true);
+            config.set("cooldown_tell", 3L);
+            config.set("localchat-no-entity", false);
+            config.set("localchat-no-entity-msg", "&cNão há jogadores próximos para ler sua mensagem.");
+            config.set("warp-spawn", true);
+            config.set("warp-shop", true);
+            config.set("warp-vip", false);
+            config.set("warp-arena", false);
+            config.set("warp-event", false);
             config.set("compatible-with-factions", false);
             config.set("tablist-enable", true);
             config.set("tablist-header", ListUtil.getStringList(" ", "&e&lCRYSTOLNETWORK ", " "));
@@ -108,11 +116,9 @@ public class EssentialsPlugin extends RPlugin {
             config.set("title-on-join-fadeout", 10);
             config.set("title-on-join-title", "&e&lCrystolNetwork");
             config.set("title-on-join-subtitle", "&fEstá funcionando, corno!");
-            config.set("warp-spawn", true);
-            config.set("warp-shop", true);
-            config.set("warp-vip", false);
-            config.set("warp-arena", false);
-            config.set("warp-event", false);
+            config.set("enable-stackmobs", true);
+            config.set("stackmobs-limit", 1000);
+            config.set("enderpearl-cooldown", 5L);
             config.set("disable-join-message", true);
             config.set("disable-quit-message", true);
             config.set("disable-weather", true);
@@ -121,12 +127,6 @@ public class EssentialsPlugin extends RPlugin {
             config.set("disable-bad-events", true);
             config.set("disable-natural-spawn-mobs", true);
             config.set("disable-enderpearl-cooldown", false);
-            config.set("enable-stackmobs", true);
-            config.set("stackmobs-limit", 1000);
-            config.set("enderpearl-cooldown", 5L);
-            config.set("cooldown_tell", 3L);
-            config.set("localchat-no-entity", false);
-            config.set("localchat-no-entity-msg", "&cNão há jogadores próximos para ler sua mensagem.");
 
         }
         if (config.contains("spawn")) config.setLocation("spawn", config.getLocation("spawn"));
