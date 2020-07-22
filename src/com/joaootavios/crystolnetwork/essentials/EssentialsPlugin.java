@@ -88,8 +88,9 @@ public class EssentialsPlugin extends RPlugin {
     private void registerListeners() {
         if (config.getBoolean("enable-stackmobs") == true) setListener(new StackMobs());
         if (config.getBoolean("disable-enderpearl-cooldown") == false) setListener(new EnderPearlListener());
-        if (config.getBoolean("tablist-enable") == true) setListener(new PlayerJoinListener());
-        setListeners(new BadEventsListener(), new EntityChangeBlockListener(), new WeatherChangeListener(), new LocalChat());
+
+        setListeners(new LocalChat(), new PlayerJoinListener(), new PlayerQuitListener());
+        setListeners(new BadEventsListener(), new EntityChangeBlockListener(), new WeatherChangeListener());
     }
 
     private void registerDefaultConfig() {
@@ -112,6 +113,8 @@ public class EssentialsPlugin extends RPlugin {
             config.set("warp-vip", false);
             config.set("warp-arena", false);
             config.set("warp-event", false);
+            config.set("disable-join-message", true);
+            config.set("disable-quit-message", true);
             config.set("disable-weather", true);
             config.set("disable-falling-blocks", true);
             config.set("disable-food-event", true);

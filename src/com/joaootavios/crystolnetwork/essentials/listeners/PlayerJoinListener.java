@@ -14,10 +14,15 @@ public class PlayerJoinListener implements Listener {
 
     final boolean compatible = RU.serverVersion.equals(".v1_8_R3.") || RU.serverVersion.equals("v1_8_R3");
     final boolean titleactive = EssentialsPlugin.config.getBoolean("title-on-join") == true;
+    final boolean tablistenable = EssentialsPlugin.config.getBoolean("tablist-enable") == true;
+    final boolean disablejoinmsg = EssentialsPlugin.config.getBoolean("disable-join-message") == true;
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
-        if (compatible)
+        if (disablejoinmsg)
+        e.setJoinMessage(null);
+
+        if (compatible && tablistenable)
         Tablist.sendTablist(e.getPlayer(), EssentialsPlugin.config.getStringList("tablist-header"), EssentialsPlugin.config.getStringList("tablist-footer"));
 
         if (titleactive)
