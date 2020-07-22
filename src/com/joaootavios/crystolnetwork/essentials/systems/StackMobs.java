@@ -271,8 +271,12 @@ public class StackMobs implements Listener {
         }
 
         CreatureSpawnEvent.SpawnReason r = e.getSpawnReason();
-        if (r.equals(CreatureSpawnEvent.SpawnReason.NATURAL) || r.equals(CreatureSpawnEvent.SpawnReason.CHUNK_GEN))
-            e.setCancelled(true);
+        if (r.equals(CreatureSpawnEvent.SpawnReason.NATURAL) || r.equals(CreatureSpawnEvent.SpawnReason.CHUNK_GEN)) {
+            if (EssentialsPlugin.config.getBoolean("disable-natural-spawn-mobs") == true) {
+                e.setCancelled(true);
+                return;
+            }
+        }
         if (!e.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.SPAWNER)) {
             return;
         }
