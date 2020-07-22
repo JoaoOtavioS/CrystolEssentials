@@ -42,7 +42,7 @@ public class CrystolNetwork extends RCommand {
             PlayerUtil.playSound(p, Sound.ENTITY_VILLAGER_YES);
         });
 
-        inventory.setItem(29, new MakeItem(Banners.getAlphabet("L", DyeColor.WHITE, DyeColor.BLACK)).setName("&eChat local.").build(), (e) -> {
+        inventory.setItem(29, new MakeItem(Banners.getAlphabet("L", DyeColor.WHITE, DyeColor.BLACK)).hideAttributes().setName("&eChat local.").build(), (e) -> {
                 Player p = (Player) e.getWhoClicked();
                 p.closeInventory();
                 if (EssentialsPlugin.config.getBoolean("chat-local-enable") == true) {
@@ -56,7 +56,7 @@ public class CrystolNetwork extends RCommand {
                 EssentialsPlugin.config.load();
                 PlayerUtil.playSound(p, Sound.ENTITY_VILLAGER_YES);
         });
-        inventory.setItem(30, new MakeItem(Banners.getAlphabet("G", DyeColor.WHITE, DyeColor.BLACK)).setName("&eChat global.").build(), (e) -> {
+        inventory.setItem(30, new MakeItem(Banners.getAlphabet("G", DyeColor.WHITE, DyeColor.BLACK)).hideAttributes().setName("&eChat global.").build(), (e) -> {
             Player p = (Player) e.getWhoClicked();
             p.closeInventory();
             if (EssentialsPlugin.config.getBoolean("chat-global-enable") == true) {
