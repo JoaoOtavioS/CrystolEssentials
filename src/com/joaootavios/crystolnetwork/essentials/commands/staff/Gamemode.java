@@ -44,19 +44,19 @@ public class Gamemode extends RCommand {
     public void gamemodeMenu(Player p1, Player open_menu) {
         final String changed = "&eO modo de jogo de "+p1.getName()+" foi alterado.";
         Inv inventory = new Inv(1 * 9, "Modo de Jogo de @"+p1.getName());
-        inventory.setItem(1, new MakeItem(Banners.getAlphabet("A", DyeColor.BLACK, DyeColor.WHITE)).setName("&eAventura").build(), (e) -> {
+        inventory.setItem(1, new MakeItem(Banners.getAlphabet("A", DyeColor.BLACK, DyeColor.WHITE)).hideAttributes().setName("&eAventura").build(), (e) -> {
             p1.setGameMode(GameMode.ADVENTURE);
             open_menu.closeInventory();
             open_menu.sendMessage(TXT.parse(changed));
             PlayerUtil.playSound(open_menu, Sound.ENTITY_VILLAGER_YES);
         });
-        inventory.setItem(2, new MakeItem(Banners.getAlphabet("S", DyeColor.BLACK, DyeColor.WHITE)).setName("&eSobrevivência").build(), (e) -> {
+        inventory.setItem(2, new MakeItem(Banners.getAlphabet("S", DyeColor.BLACK, DyeColor.WHITE)).hideAttributes().setName("&eSobrevivência").build(), (e) -> {
             p1.setGameMode(GameMode.SURVIVAL);
             open_menu.closeInventory();
             open_menu.sendMessage(TXT.parse(changed));
             PlayerUtil.playSound(open_menu, Sound.ENTITY_VILLAGER_YES);
         });
-        inventory.setItem(3, new MakeItem(Banners.getAlphabet("C", DyeColor.BLACK, DyeColor.WHITE)).setName("&eCriativo").build(), (e) -> {
+        inventory.setItem(3, new MakeItem(Banners.getAlphabet("C", DyeColor.BLACK, DyeColor.WHITE)).hideAttributes().setName("&eCriativo").build(), (e) -> {
             if (!open_menu.hasPermission("crystolnetwork.gerente")) {
                 open_menu.closeInventory();
                 PlayerUtil.sendTitle(open_menu, "", "&cPermissão insuficiente.", 5, 30, 5);
@@ -67,13 +67,13 @@ public class Gamemode extends RCommand {
             open_menu.sendMessage(TXT.parse(changed));
             PlayerUtil.playSound(open_menu, Sound.ENTITY_VILLAGER_YES);
         });
-        inventory.setItem(4, new MakeItem(Banners.getAlphabet("E", DyeColor.BLACK, DyeColor.WHITE)).setName("&eEspectador").build(), (e) -> {
+        inventory.setItem(4, new MakeItem(Banners.getAlphabet("E", DyeColor.BLACK, DyeColor.WHITE)).hideAttributes().setName("&eEspectador").build(), (e) -> {
             p1.setGameMode(GameMode.SPECTATOR);
             open_menu.closeInventory();
             open_menu.sendMessage(TXT.parse(changed));
             PlayerUtil.playSound(open_menu, Sound.ENTITY_VILLAGER_YES);
         });
-        inventory.setItem(6, new MakeItem(Banners.getAlphabet("I", DyeColor.BLACK, DyeColor.WHITE)).setName("&eInvencível").build(), (e) -> {
+        inventory.setItem(6, new MakeItem(Banners.getAlphabet("I", DyeColor.BLACK, DyeColor.WHITE)).hideAttributes().setName("&eInvencível").build(), (e) -> {
             open_menu.closeInventory();
             PlayerUtil.setAbilityIsInvulnerable(p1, !PlayerUtil.isAbilityInvulnerable(p1));
             if (PlayerUtil.isAbilityInvulnerable(p1))
