@@ -5,6 +5,7 @@ import com.crystolnetwork.offices.api.services.OfficesServices;
 import com.crystolnetwork.offices.services.classlife.Singleton;
 import com.joaootavios.crystolnetwork.essentials.EssentialsPlugin;
 import com.joaootavios.crystolnetwork.essentials.utils.CooldownAPI;
+import com.joaootavios.crystolnetwork.essentials.utils.Messages;
 import com.massivecraft.factions.entity.MPlayer;
 import dev.walk.economy.Manager.AccountManager;
 import dev.walk.economy.Manager.Magnata;
@@ -26,6 +27,7 @@ public class GlobalChat extends RCommand {
     private PlayerBase playerBase;
 
     { setAliases("global");}
+
     @Override
     public String getCommand() {
         return "g";
@@ -34,9 +36,15 @@ public class GlobalChat extends RCommand {
     @Override
     public void perform() {
 
+        if (EssentialsPlugin.config.getBoolean("chat-global-enable") == false) {
+            PlayerUtil.playSound(asPlayer(), Sound.ENTITY_VILLAGER_NO);
+            sendMessage(Messages.GLOBALCHAT.getMessage());
+            return;
+        }
+
         if (hasNoArgs()) {
             PlayerUtil.playSound(asPlayer(), Sound.ENTITY_VILLAGER_NO);
-            sendMessage("&cUse /g <mensagem> para enviar uma mensagem.");
+            sendMessage(Messages.GLOBALCHATCMD.getMessage());
             return;
         }
 
@@ -45,7 +53,7 @@ public class GlobalChat extends RCommand {
             playerBase = services.getPlayerBase();
         }
 
-        final String economy = (hasEconomyPlugin ? (new Magnata().isMagnata(new AccountManager(asPlayer().getUniqueId()).getInstance()) ? "<2>[$] " : "") : "&c[Economy not found]&r");
+        final String economy = (hasEconomyPlugin ? (new Magnata().isMagnata(new AccountManager(asPlayer().getUniqueId()).getInstance()) ? "<2>[$]" : "") : "&c[Economy not found]&r");
         final String cargo = (hasOfficePlugin ? playerBase.getUser(asPlayer()).getLargestGroup().getPrefix() : "&c[Offices not found]&r");
 
         if (cooldownAPI.getCooldownRemaining(asPlayer().getUniqueId(), "globalchat") > 0) {
@@ -56,13 +64,13 @@ public class GlobalChat extends RCommand {
 
         if (EssentialsPlugin.config.getBoolean("compatible-with-factions") == true) {
             final MPlayer mp = MPlayer.get(asPlayer().getUniqueId());
-            final String factionTag = mp.hasFaction() ? " &7[&f" + mp.getFaction().getColor() + mp.getFactionTag() + "&7]" : "";
+            final String factionTag = mp.hasFaction() ? "&7[&f" + mp.getFaction().getColor() + mp.getFactionTag() + "&7]" : "";
             final String factionRole = mp.hasFaction() ? "&7" + mp.getRole().getPrefix() : "";
-            final String formatedMessage = TXT.parse("&7[G] &r"+ economy + factionTag + " " + cargo + " " + factionRole + asPlayer().getName() + " &f» &e" + createString(getArgs(), 0));
+            final String formatedMessage = TXT.parse("&7[G] &r"+ economy + " " + factionTag + " " + cargo + " " + factionRole + asPlayer().getName() + " &f» &e" + createString(getArgs(), 0));
             cooldownAPI.setCooldown(asPlayer().getUniqueId(), "globalchat", 10L);
             PlayerUtil.broadcast(formatedMessage);
         } else {
-            final String formatedMessage = TXT.parse("&7[G] &r"+ economy  + " " + cargo + " " + asPlayer().getName() + " &f» &e" + createString(getArgs(), 0));
+            final String formatedMessage = TXT.parse("&7[G] &r"+ economy + " " + cargo + " " + asPlayer().getName() + " &f» &e" + createString(getArgs(), 0));
             cooldownAPI.setCooldown(asPlayer().getUniqueId(), "globalchat", 10L);
             PlayerUtil.broadcast(formatedMessage);
         }
