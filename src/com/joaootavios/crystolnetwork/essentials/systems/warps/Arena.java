@@ -18,7 +18,7 @@ public class Arena extends RCommand {
         return "arena";
     }
     @Override public void perform() {
-        if (EssentialsPlugin.config.getBoolean("warp-arena") == false) {
+        if (EssentialsPlugin.config.getBoolean("warp.arena") == false) {
             sendNoMessage(Messages.ERRORLOCDISABLE.getMessage());
             return;
         }

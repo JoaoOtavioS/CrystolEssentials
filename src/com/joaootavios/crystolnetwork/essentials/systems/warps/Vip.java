@@ -25,7 +25,7 @@ public class Vip extends RCommand {
             sendNoMessage(Messages.ERRORNOVIP.getMessage());
             return;
         }
-        if (EssentialsPlugin.config.getBoolean("warp-vip") == false) {
+        if (EssentialsPlugin.config.getBoolean("warp.vip") == false) {
             sendNoMessage(Messages.ERRORLOCDISABLE.getMessage());
             return;
         }

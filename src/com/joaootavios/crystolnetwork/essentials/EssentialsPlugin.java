@@ -72,11 +72,11 @@ public class EssentialsPlugin extends RPlugin {
     }
 
     private void registerCommands() {
-        if (config.getBoolean("warp-spawn") == true) registerCommand(new Spawn());
-        if (config.getBoolean("warp-shop") == true) registerCommand(new Shop());
-        if (config.getBoolean("warp-vip") == true) registerCommand(new Vip());
-        if (config.getBoolean("warp-arena") == true) registerCommand(new Arena());
-        if (config.getBoolean("warp-event") == true) registerCommand(new Event());
+        if (config.getBoolean("warp.spawn") == true) registerCommand(new Spawn());
+        if (config.getBoolean("warp.shop") == true) registerCommand(new Shop());
+        if (config.getBoolean("warp.vip") == true) registerCommand(new Vip());
+        if (config.getBoolean("warp.arena") == true) registerCommand(new Arena());
+        if (config.getBoolean("warp.event") == true) registerCommand(new Event());
 
         // perae
         registerCommands(
@@ -95,17 +95,17 @@ public class EssentialsPlugin extends RPlugin {
 
     private void registerDefaultConfig() {
         config = new ConfigManager(this, "config.yml");
-        if (!config.contains("warp-vip")) {
+        if (!config.contains("warp.vip")) {
             config.set("chat-global-enable", true);
             config.set("chat-local-enable", true);
             config.set("cooldown_tell", 3L);
             config.set("localchat-no-entity", false);
             config.set("localchat-no-entity-msg", "&cNão há jogadores próximos para ler sua mensagem.");
-            config.set("warp-spawn", true);
-            config.set("warp-shop", true);
-            config.set("warp-vip", false);
-            config.set("warp-arena", false);
-            config.set("warp-event", false);
+            config.set("warp.spawn", true);
+            config.set("warp.shop", true);
+            config.set("warp.vip", false);
+            config.set("warp.arena", false);
+            config.set("warp.event", false);
             config.set("compatible-with-factions", false);
             config.set("tablist.enable", true);
             config.set("tablist.header", ListUtil.getStringList(" ", "&e&lCRYSTOLNETWORK ", " "));
@@ -130,8 +130,6 @@ public class EssentialsPlugin extends RPlugin {
             config.set("disable.natural-spawn-mobs", true);
             config.set("disable.enderpearl-cooldown", false);
             config.set("disable.cooldown-enderpearl", 5L);
-
-
         }
         if (config.contains("spawn")) config.setLocation("spawn", config.getLocation("spawn"));
         if (config.contains("shop")) config.setLocation("shop", config.getLocation("shop"));
@@ -144,15 +142,15 @@ public class EssentialsPlugin extends RPlugin {
 
     private void registerScoreBoard() {
         scoreboard = new ConfigManager(this, "scoreboard.yml");
-        if (!scoreboard.contains("scoreboard-update-ticks")) {
-            scoreboard.set("scoreboard-active", true);
-            scoreboard.set("scoreboard-update-ticks", 40);
+        if (!scoreboard.contains("scoreboard.update-ticks")) {
+            scoreboard.set("scoreboard.active", true);
+            scoreboard.set("scoreboard.update-ticks", 40);
             scoreboard.set("compatible-with-factions", false);
             scoreboard.set("compatible-with-crystolguerra", false);
-            scoreboard.setString("scoreboard-title", "&e&lCrystolNetwork");
-            scoreboard.set("scoreboard-lines", ListUtil.getStringList(" ", " &fNome: &e<player>", " &fLatência: <ping>", " ", " &fJogadores: <onlines>", " "," &fMoedas: &a<coins>", " &fCash: &6<cash> ", " ", " &ecrystolnetwork.com"));
-            scoreboard.set("scoreboard-lines-hasfac", ListUtil.getStringList(" ", " &fNome: &e<player>", " &fLatência: <ping>", " ", " &eFacção: <faction_name>", "  &fOnlines: &7<faction_online>", "  &fPoder: &7<faction_power>", "  &fTerras: &7<faction_land>", " ", " &fMoedas: &a<coins>", " &fCash: &6<cash> ", " ", " &ecrystolnetwork.com"));
-            scoreboard.set("scoreboard-lines-nofac", ListUtil.getStringList(" ", " &fNome: &e<player>", " &fLatência: <ping>", " ", " &cSem facção.", " "," &fMoedas: &a<coins>", " &fCash: &6<cash> ", " ", " &ecrystolnetwork.com"));
+            scoreboard.setString("scoreboard.title", "&e&lCrystolNetwork");
+            scoreboard.set("scoreboard.lines", ListUtil.getStringList(" ", " &fNome: &e<player>", " &fLatência: <ping>", " ", " &fJogadores: <onlines>", " "," &fMoedas: &a<coins>", " &fCash: &6<cash> ", " ", " &ecrystolnetwork.com"));
+            scoreboard.set("scoreboard.lines-hasfac", ListUtil.getStringList(" ", " &fNome: &e<player>", " &fLatência: <ping>", " ", " &eFacção: <faction_name>", "  &fOnlines: &7<faction_online>", "  &fPoder: &7<faction_power>", "  &fTerras: &7<faction_land>", " ", " &fMoedas: &a<coins>", " &fCash: &6<cash> ", " ", " &ecrystolnetwork.com"));
+            scoreboard.set("scoreboard.lines-nofac", ListUtil.getStringList(" ", " &fNome: &e<player>", " &fLatência: <ping>", " ", " &cSem facção.", " "," &fMoedas: &a<coins>", " &fCash: &6<cash> ", " ", " &ecrystolnetwork.com"));
         }
         scoreboard.save();
         scoreboard.load();
@@ -161,10 +159,10 @@ public class EssentialsPlugin extends RPlugin {
         final boolean hasEconomyPlugin = getServer().getPluginManager().getPlugin("CrystolEconomy") != null;
         final boolean hasFactionPlugin = getServer().getPluginManager().getPlugin("Factions") != null;
 
-        if (scoreboard.getBoolean("scoreboard-active") == true) {
+        if (scoreboard.getBoolean("scoreboard.active") == true) {
             Assemble score = new Assemble(this, new AssembleAdapter() {
                 @Override public String getTitle(Player player) {
-                    return scoreboard.getString("scoreboard-title");
+                    return scoreboard.getString("scoreboard.title");
                 }
                 @Override public List<String> getLines(Player player) {
                     if (scoreboard.getBoolean("compatible-with-crystolguerra") == true) if (!GuerraCommand.guerrapeoples.containsValue(player.getUniqueId())) return null;
@@ -178,31 +176,31 @@ public class EssentialsPlugin extends RPlugin {
                             final MPlayer mp = MPlayer.get(player.getUniqueId());
                             final Faction faction = mp.getFaction();
                             if (mp.hasFaction()) {
-                                List<String> stringlist = ListUtil.getColorizedStringList(scoreboard.getStringList("scoreboard-lines-hasfac"));
+                                List<String> stringlist = ListUtil.getColorizedStringList(scoreboard.getStringList("scoreboard.lines-hasfac"));
                                 stringlist.replaceAll(a -> a.replace("<player>", player.getName()).replace("<onlines>", "" + Bukkit.getOnlinePlayers().size()).replace("<ping>", (ping == -1 ? "&cOnly 1.8.8" : pingcolor + ping + "ms")).replace("<faction_name>", faction.getColor() + "[" + faction.getTag() + "] " + faction.getName()).replace("<faction_online>", faction.getOnlinePlayers().size() + "/" + faction.getMPlayers().size()).replace("<faction_power>", faction.getPowerRounded() + "/" + faction.getPowerMaxRounded()).replace("<faction_land>", "" + faction.getLandCount()).replace("<player_power>", mp.getPowerRounded() + "/" + mp.getPowerMaxRounded()).replace("<coins>", (hasEconomyPlugin ? (coins > 0 ? new EconomyUtils().formatMoney(coins) : "&cNenhum") : "&cNot found")).replace("<nivel>", "" + (ExperienceAPI.getTotalLevels(player) == 0 ? "&cNenhum" : ExperienceAPI.getTotalLevels(player))));
                                 return stringlist;
                             } else {
-                                List<String> stringlist = ListUtil.getColorizedStringList(scoreboard.getStringList("scoreboard-lines-nofac"));
+                                List<String> stringlist = ListUtil.getColorizedStringList(scoreboard.getStringList("scoreboard.lines-nofac"));
                                 stringlist.replaceAll(a -> a.replace("<player>", player.getName()).replace("<onlines>", "" + Bukkit.getOnlinePlayers().size()).replace("<ping>", (ping == -1 ? "&cOnly 1.8.8" : pingcolor + ping + "ms")).replace("<coins>", (hasEconomyPlugin ? (coins > 0 ? new EconomyUtils().formatMoney(coins) : "&cNenhum") : "&cNot found")).replace("<nivel>", "" + (ExperienceAPI.getTotalLevels(player) == 0 ? "&cNenhum" : ExperienceAPI.getTotalLevels(player))));
                                 return stringlist;
                             }
                         }
 
                         // No Compatible Factions
-                        List<String> stringlist = ListUtil.getColorizedStringList(scoreboard.getStringList("scoreboard-lines"));
+                        List<String> stringlist = ListUtil.getColorizedStringList(scoreboard.getStringList("scoreboard.lines"));
                         stringlist.replaceAll(a -> a.replace("<player>", player.getName()).replace("<onlines>", "" + Bukkit.getOnlinePlayers().size()).replace("<ping>", (ping == -1 ? "&cOnly 1.8.8" : pingcolor + ping + "ms")).replace("<coins>", (hasEconomyPlugin ? (coins > 0 ? new EconomyUtils().formatMoney(coins) : "&cNenhum") : "&cNot found")).replace("<nivel>", ""+(ExperienceAPI.getTotalLevels(player) == 0 ? "&cNenhum" : ExperienceAPI.getTotalLevels(player))));
                         return stringlist;
 
                     } else {
 
                         // No Compatible Factions
-                        List<String> stringlist = ListUtil.getColorizedStringList(scoreboard.getStringList("scoreboard-lines"));
+                        List<String> stringlist = ListUtil.getColorizedStringList(scoreboard.getStringList("scoreboard.lines"));
                         stringlist.replaceAll(a -> a.replace("<player>", player.getName()).replace("<onlines>", "" + Bukkit.getOnlinePlayers().size()).replace("<ping>", (ping == -1 ? "&cOnly 1.8.8" : pingcolor + ping + "ms")).replace("<coins>", (hasEconomyPlugin ? (coins > 0 ? new EconomyUtils().formatMoney(coins) : "&cNenhum") : "&cNot found")).replace("<nivel>", ""+(ExperienceAPI.getTotalLevels(player) == 0 ? "&cNenhum" : ExperienceAPI.getTotalLevels(player))));
                         return stringlist;
                     }
                 }
             });
-            score.scoreUpdateTick = scoreboard.getInt("scoreboard-update-ticks");
+            score.scoreUpdateTick = scoreboard.getInt("scoreboard.update-ticks");
         }
     }
 

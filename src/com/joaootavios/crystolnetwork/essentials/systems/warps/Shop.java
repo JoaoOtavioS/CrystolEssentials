@@ -18,7 +18,7 @@ public class Shop extends RCommand {
         return "shop";
     }
     @Override public void perform() {
-        if (EssentialsPlugin.config.getBoolean("warp-shop") == false) {
+        if (EssentialsPlugin.config.getBoolean("warp.shop") == false) {
             sendNoMessage(Messages.ERRORLOCDISABLE.getMessage());
             return;
         }

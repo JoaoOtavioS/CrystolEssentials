@@ -18,7 +18,7 @@ public class Spawn extends RCommand {
         return "spawn";
     }
     @Override public void perform() {
-        if (EssentialsPlugin.config.getBoolean("warp-spawn") == false) {
+        if (EssentialsPlugin.config.getBoolean("warp.spawn") == false) {
             sendNoMessage(Messages.ERRORLOCDISABLE.getMessage());
             return;
         }

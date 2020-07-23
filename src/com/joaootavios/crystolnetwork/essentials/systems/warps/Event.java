@@ -17,7 +17,7 @@ public class Event extends RCommand {
         return "evento";
     }
     @Override public void perform() {
-        if (EssentialsPlugin.config.getBoolean("warp-event") == false) {
+        if (EssentialsPlugin.config.getBoolean("warp.event") == false) {
             sendNoMessage(Messages.ERRORLOCDISABLE.getMessage());
             return;
         }
