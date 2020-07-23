@@ -9,7 +9,7 @@ public class WeatherChangeListener implements Listener {
 
     @EventHandler
     public void onRain(WeatherChangeEvent e) {
-        if (EssentialsPlugin.config.getBoolean("disable-weather") == true) {
+        if (EssentialsPlugin.config.getBoolean("disable.weather") == true) {
             e.setCancelled(e.toWeatherState());
         }
     }

@@ -7,7 +7,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerQuitListener implements Listener {
 
-    final boolean disablequitmsg = EssentialsPlugin.config.getBoolean("disable-quit-message") == true;
+    final boolean disablequitmsg = EssentialsPlugin.config.getBoolean("disable.quit-message") == true;
 
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {

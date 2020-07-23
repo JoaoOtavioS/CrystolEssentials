@@ -17,9 +17,9 @@ public class PlayerJoinListener implements Listener {
     final boolean compatible = RU.serverVersion.equals(".v1_8_R3.") || RU.serverVersion.equals("v1_8_R3");
     final boolean titleactive = config.getBoolean("title.enable");
     final boolean tablistenable = config.getBoolean("tablist.enable");
-    final boolean disablejoinmsg = config.getBoolean("disable-join-message");
-    final boolean clearmessages = config.getBoolean("clear-chat-on-join");
-    final boolean welcome = config.getBoolean("enable-welcome-message");
+    final boolean disablejoinmsg = config.getBoolean("disable.join-message");
+    final boolean clearmessages = config.getBoolean("welcome-message.clear-chat");
+    final boolean welcome = config.getBoolean("welcome-message.enable");
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
@@ -36,7 +36,7 @@ public class PlayerJoinListener implements Listener {
             e.getPlayer().sendMessage(StringUtils.repeat("", 100));
 
         if (welcome)
-            e.getPlayer().sendMessage(TXT.parse(String.join("\n", config.getStringList("welcome-message"))));
+            e.getPlayer().sendMessage(TXT.parse(String.join("\n", config.getStringList("welcome-message.message"))));
 
 
     }

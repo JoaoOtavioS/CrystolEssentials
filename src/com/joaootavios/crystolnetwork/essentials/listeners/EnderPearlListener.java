@@ -15,7 +15,7 @@ public class EnderPearlListener implements Listener {
 
     @EventHandler
     public void enviarEnderPearl(ProjectileLaunchEvent e) {
-        if (EssentialsPlugin.config.getBoolean("disable-enderpearl-cooldown") == true) return;
+        if (EssentialsPlugin.config.getBoolean("disable.enderpearl-cooldown") == true) return;
         if (!(e.getEntity().getShooter() instanceof Player)) {
             return;
         }
@@ -29,6 +29,6 @@ public class EnderPearlListener implements Listener {
             e.setCancelled(true);
             return;
         }
-        cooldownAPI.setCooldown(p.getUniqueId(), "enderpearl", EssentialsPlugin.config.getLong("enderpearl-cooldown"));
+        cooldownAPI.setCooldown(p.getUniqueId(), "enderpearl", EssentialsPlugin.config.getLong("disable.cooldown-enderpearl"));
     }
 }

@@ -11,7 +11,7 @@ public class EntityChangeBlockListener implements Listener {
     @EventHandler
     public static void updateSand(EntityChangeBlockEvent e) {
         if (e.getEntity().getType().equals(EntityType.FALLING_BLOCK)) {
-            if (EssentialsPlugin.config.getBoolean("disable-falling-blocks") == true) {
+            if (EssentialsPlugin.config.getBoolean("disable.falling-blocks") == true) {
                 e.getBlock().getState().update();
                 e.getEntity().remove();
                 e.getBlock().getState().update();

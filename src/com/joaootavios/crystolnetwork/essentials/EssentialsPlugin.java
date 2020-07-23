@@ -87,7 +87,7 @@ public class EssentialsPlugin extends RPlugin {
 
     private void registerListeners() {
         if (config.getBoolean("enable-stackmobs") == true) setListener(new StackMobs());
-        if (config.getBoolean("disable-enderpearl-cooldown") == false) setListener(new EnderPearlListener());
+        if (config.getBoolean("disable.enderpearl-cooldown") == false) setListener(new EnderPearlListener());
 
         setListeners(new LocalChat(), new PlayerJoinListener(), new PlayerQuitListener());
         setListeners(new BadEventsListener(), new EntityChangeBlockListener(), new WeatherChangeListener());
@@ -116,20 +116,21 @@ public class EssentialsPlugin extends RPlugin {
             config.set("title.fadeout", 10);
             config.set("title.title", "&e&lCrystolNetwork");
             config.set("title.subtitle", "&fEstá funcionando, corno!");
-            config.set("enable-welcome-message", true);
-            config.set("clear-chat-on-join", true);
-            config.set("welcome-message", ListUtil.getStringList(" ", "&e&lCrystolNetwork", "", "&fSeja bem-vindo, cú de urubu <3", " "));
+            config.set("welcome-message.enable", true);
+            config.set("welcome-message.clear-chat", true);
+            config.set("welcome-message.message", ListUtil.getStringList(" ", "&e&lCrystolNetwork", "", "&fSeja bem-vindo, cú de urubu <3", " "));
             config.set("enable-stackmobs", true);
             config.set("stackmobs-limit", 1000);
-            config.set("enderpearl-cooldown", 5L);
-            config.set("disable-join-message", true);
-            config.set("disable-quit-message", true);
-            config.set("disable-weather", true);
-            config.set("disable-falling-blocks", true);
-            config.set("disable-food-event", true);
-            config.set("disable-bad-events", true);
-            config.set("disable-natural-spawn-mobs", true);
-            config.set("disable-enderpearl-cooldown", false);
+            config.set("disable.join-message", true);
+            config.set("disable.quit-message", true);
+            config.set("disable.weather", true);
+            config.set("disable.falling-blocks", true);
+            config.set("disable.food-event", true);
+            config.set("disable.bad-events", true);
+            config.set("disable.natural-spawn-mobs", true);
+            config.set("disable.enderpearl-cooldown", false);
+            config.set("disable.cooldown-enderpearl", 5L);
+
 
         }
         if (config.contains("spawn")) config.setLocation("spawn", config.getLocation("spawn"));
