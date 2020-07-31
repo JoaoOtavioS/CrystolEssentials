@@ -28,6 +28,7 @@ public class PlayerJoinListener implements Listener {
 
         if (compatible && tablistenable)
         Tablist.sendTablist(e.getPlayer(), config.getStringList("tablist.header"), config.getStringList("tablist.footer"));
+        PlayerUtil.sendTablist(e.getPlayer(), config.getStringList("tablist.header"), config.getStringList("tablist.footer"));
 
         if (titleactive)
             PlayerUtil.sendTitle(e.getPlayer(), config.getString("title.title"), config.getString("title.subtitle"), config.getInt("title.fadein"), config.getInt("title.stay"), config.getInt("title.fadeout"));
