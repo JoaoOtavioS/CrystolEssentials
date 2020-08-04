@@ -48,7 +48,7 @@ public class StackMobs implements Listener {
     );
     Random r = new Random();
 
-    private final String getNameForType(EntityType type) {
+    public static final String getNameForType(EntityType type) {
         if (type == EntityType.GUARDIAN) {
             return TXT.parse("<b>Guardião");
         }
@@ -289,7 +289,7 @@ public class StackMobs implements Listener {
                     if (near.getCustomName().contains(getNameForType(near.getType()))) {
                         int amount = Integer.parseInt(near.getCustomName().substring(2, near.getCustomName().indexOf("x")));
                         amount++;
-                        if (amount <= EssentialsPlugin.config.getInt("stackmobs-limit")) {
+                        if (amount <= EssentialsPlugin.config.getInt("stackmobs.limit")) {
                             e.getEntity().remove();
                             near.setCustomName(TXT.parse("<7>" + amount + "x " + getNameForType(near.getType())));
                             return;

@@ -39,7 +39,6 @@ public class PlayerJoinListener implements Listener {
         if (welcome)
             e.getPlayer().sendMessage(TXT.parse(String.join("\n", config.getStringList("welcome-message.message"))));
 
-
     }
 
 }

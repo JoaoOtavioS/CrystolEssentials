@@ -9,6 +9,11 @@ import com.joaootavios.crystolnetwork.essentials.listeners.*;
 import com.joaootavios.crystolnetwork.essentials.systems.chats.GlobalChat;
 import com.joaootavios.crystolnetwork.essentials.systems.chats.LocalChat;
 import com.joaootavios.crystolnetwork.essentials.systems.chats.Tell;
+import com.joaootavios.crystolnetwork.essentials.systems.spawnersystem.SpawnerCommand;
+import com.joaootavios.crystolnetwork.essentials.systems.spawnersystem.listeners.SpawnerBreakListener;
+import com.joaootavios.crystolnetwork.essentials.systems.spawnersystem.listeners.SpawnerExplosionListener;
+import com.joaootavios.crystolnetwork.essentials.systems.spawnersystem.listeners.SpawnerInteractListener;
+import com.joaootavios.crystolnetwork.essentials.systems.spawnersystem.listeners.SpawnerPlaceListener;
 import com.joaootavios.crystolnetwork.essentials.systems.warps.*;
 import com.joaootavios.crystolnetwork.essentials.experienceapi.ExperienceAPI;
 import com.joaootavios.crystolnetwork.essentials.systems.StackMobs;
@@ -63,7 +68,6 @@ public class EssentialsPlugin extends RPlugin {
 
         registerCommands();
         registerListeners();
-
     }
 
     @Override
@@ -72,13 +76,14 @@ public class EssentialsPlugin extends RPlugin {
     }
 
     private void registerCommands() {
+
         if (config.getBoolean("warp.spawn") == true) registerCommand(new Spawn());
         if (config.getBoolean("warp.shop") == true) registerCommand(new Shop());
         if (config.getBoolean("warp.vip") == true) registerCommand(new Vip());
         if (config.getBoolean("warp.arena") == true) registerCommand(new Arena());
         if (config.getBoolean("warp.event") == true) registerCommand(new Event());
+        if (config.getBoolean("spawnersystem.enable")) registerCommand(new SpawnerCommand());
 
-        // perae
         registerCommands(
                 new CrystolNetwork(), new Gamemode(),
                 new Lanterna(), new Lixeira(),
@@ -86,8 +91,9 @@ public class EssentialsPlugin extends RPlugin {
     }
 
     private void registerListeners() {
-        if (config.getBoolean("enable-stackmobs") == true) setListener(new StackMobs());
+        if (config.getBoolean("stackmobs.enable") == true) setListener(new StackMobs());
         if (config.getBoolean("disable.enderpearl-cooldown") == false) setListener(new EnderPearlListener());
+        if (config.getBoolean("spawnersystem.enable")) setListeners(new SpawnerBreakListener(), new SpawnerPlaceListener(), new SpawnerExplosionListener(), new SpawnerInteractListener());
 
         setListeners(new LocalChat(), new PlayerJoinListener(), new PlayerQuitListener());
         setListeners(new BadEventsListener(), new EntityChangeBlockListener(), new WeatherChangeListener());
@@ -119,10 +125,12 @@ public class EssentialsPlugin extends RPlugin {
             config.set("welcome-message.enable", true);
             config.set("welcome-message.clear-chat", true);
             config.set("welcome-message.message", ListUtil.getStringList(" ", "&e&lCrystolNetwork", "", "&fSeja bem-vindo, cú de urubu <3", " "));
-            config.set("enable-stackmobs", true);
-            config.set("stackmobs-limit", 1000);
+            config.set("spawnersystem.enable", true);
+            config.set("stackmobs.enable", true);
+            config.set("stackmobs.limit", 1000);
             config.set("disable.join-message", true);
             config.set("disable.quit-message", true);
+            config.set("disable.experiencesystem", false);
             config.set("disable.weather", true);
             config.set("disable.falling-blocks", true);
             config.set("disable.food-event", true);
@@ -143,10 +151,10 @@ public class EssentialsPlugin extends RPlugin {
     private void registerScoreBoard() {
         scoreboard = new ConfigManager(this, "scoreboard.yml");
         if (!scoreboard.contains("scoreboard.update-ticks")) {
-            scoreboard.set("scoreboard.active", true);
+            scoreboard.set("compatible.with-factions", false);
+            scoreboard.set("compatible.with-crystolguerra", false);
+            scoreboard.set("scoreboard.enable", true);
             scoreboard.set("scoreboard.update-ticks", 40);
-            scoreboard.set("compatible-with-factions", false);
-            scoreboard.set("compatible-with-crystolguerra", false);
             scoreboard.setString("scoreboard.title", "&e&lCrystolNetwork");
             scoreboard.set("scoreboard.lines", ListUtil.getStringList(" ", " &fNome: &e<player>", " &fLatência: <ping>", " ", " &fJogadores: <onlines>", " "," &fMoedas: &a<coins>", " &fCash: &6<cash> ", " ", " &ecrystolnetwork.com"));
             scoreboard.set("scoreboard.lines-hasfac", ListUtil.getStringList(" ", " &fNome: &e<player>", " &fLatência: <ping>", " ", " &eFacção: <faction_name>", "  &fOnlines: &7<faction_online>", "  &fPoder: &7<faction_power>", "  &fTerras: &7<faction_land>", " ", " &fMoedas: &a<coins>", " &fCash: &6<cash> ", " ", " &ecrystolnetwork.com"));
@@ -159,19 +167,19 @@ public class EssentialsPlugin extends RPlugin {
         final boolean hasEconomyPlugin = getServer().getPluginManager().getPlugin("CrystolEconomy") != null;
         final boolean hasFactionPlugin = getServer().getPluginManager().getPlugin("Factions") != null;
 
-        if (scoreboard.getBoolean("scoreboard.active") == true) {
+        if (scoreboard.getBoolean("scoreboard.enable") == true) {
             Assemble score = new Assemble(this, new AssembleAdapter() {
                 @Override public String getTitle(Player player) {
                     return scoreboard.getString("scoreboard.title");
                 }
                 @Override public List<String> getLines(Player player) {
-                    if (scoreboard.getBoolean("compatible-with-crystolguerra") == true) if (!GuerraCommand.guerrapeoples.containsValue(player.getUniqueId())) return null;
+                    if (scoreboard.getBoolean("compatible.with-crystolguerra") == true) if (!GuerraCommand.guerrapeoples.containsValue(player.getUniqueId())) return null;
 
                     final int ping = (compatible ? ((CraftPlayer) player).getHandle().ping : -1);
                     final String pingcolor = (ping > 150 ? "&c" : "&a");
                     final double coins = (hasEconomyPlugin ? new AccountManager(player.getUniqueId()).getInstance().getMoney() : -1);
 
-                    if (scoreboard.getBoolean("compatible-with-factions") == true) {
+                    if (scoreboard.getBoolean("compatible.with-factions") == true) {
                         if (hasFactionPlugin) {
                             final MPlayer mp = MPlayer.get(player.getUniqueId());
                             final Faction faction = mp.getFaction();

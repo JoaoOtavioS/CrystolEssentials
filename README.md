@@ -4,10 +4,11 @@ Um plugin essencial para o funcionamento do servidor.
 ## Sumário
 * [Exemplo CooldownAPI](#uso-da-cooldownapi)
 * [Exemplo ExperienceAPI](#uso-da-experienceapi)
+* [Exemplo EssentialsUtils](#uso-da-essentialsutils)
 
 ## Uso da CooldownAPI
 ```java
-public class Exemplo extends Listener{
+public class Exemplo implements Listener{
 
     private final CooldownAPI cooldownAPI = new CooldownAPI();
     
@@ -33,7 +34,7 @@ public class Exemplo extends Listener{
 
 ## Uso da ExperienceAPI
 ```java
-public class Exemplo extends Listener {
+public class Exemplo implements Listener {
 
     // Exemplo de uso do ExperienceAPI
     @EventHandler
@@ -56,6 +57,20 @@ public class Exemplo extends Listener {
                 // Recompensa de exemplo >> 100 leveis Mineração = HASTE.
             }
         }
+    }
+}
+```
+
+## Uso da EssentialsUtils
+```java
+public class Exemplo implements Listener {
+
+    // Exemplo de uso da EssentialsUtils
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e) {
+        final Player player = e.getPlayer();
+        
+        
     }
 }
 ```

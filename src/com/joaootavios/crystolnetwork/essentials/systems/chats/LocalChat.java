@@ -1,8 +1,8 @@
 package com.joaootavios.crystolnetwork.essentials.systems.chats;
 
-import com.crystolnetwork.offices.api.PlayerBase;
-import com.crystolnetwork.offices.api.services.OfficesServices;
-import com.crystolnetwork.offices.services.classlife.Singleton;
+import com.crystolnetwork.offices.entity.PlayerBase;
+import com.crystolnetwork.offices.services.OfficesServices;
+import com.crystolnetwork.offices.services.SingletonService;
 import com.joaootavios.crystolnetwork.essentials.EssentialsPlugin;
 import com.joaootavios.crystolnetwork.essentials.utils.CooldownAPI;
 import com.joaootavios.crystolnetwork.essentials.utils.Messages;
@@ -38,7 +38,7 @@ public class LocalChat implements Listener {
         e.setCancelled(true);
 
         if (services == null && hasOfficePlugin){
-            services = Singleton.getOrFill(OfficesServices.class);
+            services = SingletonService.getOrFill(OfficesServices.class);
             playerBase = services.getPlayerBase();
         }
 

@@ -1,8 +1,8 @@
 package com.joaootavios.crystolnetwork.essentials.systems.chats;
 
-import com.crystolnetwork.offices.api.PlayerBase;
-import com.crystolnetwork.offices.api.services.OfficesServices;
-import com.crystolnetwork.offices.services.classlife.Singleton;
+import com.crystolnetwork.offices.entity.PlayerBase;
+import com.crystolnetwork.offices.services.OfficesServices;
+import com.crystolnetwork.offices.services.SingletonService;
 import com.joaootavios.crystolnetwork.essentials.EssentialsPlugin;
 import com.joaootavios.crystolnetwork.essentials.utils.CooldownAPI;
 import com.joaootavios.crystolnetwork.essentials.utils.Messages;
@@ -13,9 +13,7 @@ import rcore.command.RCommand;
 import rcore.specificutils.PlayerUtil;
 import rcore.util.Sound;
 import rcore.util.TXT;
-
 import java.util.List;
-
 import static org.bukkit.Bukkit.getServer;
 
 public class GlobalChat extends RCommand {
@@ -49,7 +47,7 @@ public class GlobalChat extends RCommand {
         }
 
         if (services == null && hasOfficePlugin){
-            services = Singleton.getOrFill(OfficesServices.class);
+            services = SingletonService.getOrFill(OfficesServices.class);
             playerBase = services.getPlayerBase();
         }
 
