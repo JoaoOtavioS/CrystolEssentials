@@ -64,13 +64,17 @@ public class Exemplo implements Listener {
 ## Uso da EssentialsUtils
 ```java
 public class Exemplo implements Listener {
-
     // Exemplo de uso da EssentialsUtils
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         final Player player = e.getPlayer();
+
+        CrystolEssentialsUtils.sendStaffMessage("Aviso um jogador entrou no servidor.");
         
+        CrystolEssentialsUtils.sendStaffMessage(player + " entrou no servidor, atenção adminitração!!!!");
         
+        CrystolEssentialsUtils.sendStaffMessage(" ", "Aviso um jogador entrou no servidor.", " ");
+
     }
 }
 ```
