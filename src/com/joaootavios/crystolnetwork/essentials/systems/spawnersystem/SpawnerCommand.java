@@ -1,7 +1,7 @@
 package com.joaootavios.crystolnetwork.essentials.systems.spawnersystem;
 
 import com.joaootavios.crystolnetwork.essentials.systems.StackMobs;
-import com.joaootavios.crystolnetwork.essentials.utils.CrystolEssentialsUtils;
+import com.joaootavios.crystolnetwork.essentials.utils.EssentialsAPI;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -61,7 +61,7 @@ public class SpawnerCommand extends RCommand {
 
         toGive.updateInventory();
         playSound(toGive, Sound.BLOCK_NOTE_BLOCK_PLING, 1.0, 1.0);
-        CrystolEssentialsUtils.sendStaffMessage("<c>[Logs] <8>" + toGive.getName() + " <f>enviou <4>" + amount + " <f>sp de " + spawnerName + " <f>para <8>" + toGive.getName() + "<f>.");
+        EssentialsAPI.sendStaffMessage("<c>[Logs] <8>" + toGive.getName() + " <f>enviou <4>" + amount + " <f>sp de " + spawnerName + " <f>para <8>" + toGive.getName() + "<f>.");
     }
     @Override public List<String> tabComplete() { return null; }
 }

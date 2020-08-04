@@ -4,7 +4,7 @@ Um plugin essencial para o funcionamento do servidor.
 ## Sumário
 * [Exemplo CooldownAPI](#uso-da-cooldownapi)
 * [Exemplo ExperienceAPI](#uso-da-experienceapi)
-* [Exemplo EssentialsUtils](#uso-da-essentialsutils)
+* [Exemplo EssentialsAPI](#uso-da-essentialsapi)
 
 ## Uso da CooldownAPI
 ```java
@@ -61,19 +61,20 @@ public class Exemplo implements Listener {
 }
 ```
 
-## Uso da EssentialsUtils
+## Uso da EssentialsAPI
 ```java
 public class Exemplo implements Listener {
-    // Exemplo de uso da EssentialsUtils
+
+    // Exemplo de uso da EssentialsAPI
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         final Player player = e.getPlayer();
 
-        CrystolEssentialsUtils.sendStaffMessage("Aviso um jogador entrou no servidor.");
+        EssentialsAPI.sendStaffMessage("Aviso um jogador entrou no servidor.");
         
-        CrystolEssentialsUtils.sendStaffMessage(player + " entrou no servidor, atenção adminitração!!!!");
+        EssentialsAPI.sendStaffMessage(player + " entrou no servidor, atenção adminitração!!!!");
         
-        CrystolEssentialsUtils.sendStaffMessage(" ", "Aviso um jogador entrou no servidor.", " ");
+        EssentialsAPI.sendStaffMessage(" ", "Aviso um jogador entrou no servidor.", " ");
 
     }
 }

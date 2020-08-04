@@ -5,7 +5,7 @@ import org.bukkit.Bukkit;
 import rcore.util.TXT;
 import java.util.Arrays;
 
-public class CrystolEssentialsUtils {
+public class EssentialsAPI {
 
     public static void sendStaffMessage(String... messages) {
         Bukkit.getScheduler().runTaskAsynchronously(EssentialsPlugin.getPlugin(EssentialsPlugin.class), () -> {
