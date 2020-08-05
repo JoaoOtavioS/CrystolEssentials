@@ -1,7 +1,7 @@
 package com.joaootavios.crystolnetwork.essentials.systems.spawnersystem;
 
 import com.joaootavios.crystolnetwork.essentials.systems.StackMobs;
-import com.joaootavios.crystolnetwork.essentials.utils.EssentialsAPI;
+import com.joaootavios.crystolnetwork.essentials.api.EssentialsAPI;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -18,7 +18,7 @@ public class SpawnerCommand extends RCommand {
 
     @Override public String getCommand() { return "givespawner"; }
     @Override public void perform() {
-        int amount;
+        final int amount;
         final EntityType type;
 
         if (!isArgsLength(3)) {
@@ -27,7 +27,7 @@ public class SpawnerCommand extends RCommand {
             return;
         }
 
-        Player toGive = getPlayer(argAt(0));
+        final Player toGive = getPlayer(argAt(0));
         if (toGive == null) {
             sendMessage("<7>'%s' <c>não está online.", argAt(0));
             playSound(Sound.ENTITY_VILLAGER_NO, 1.0, 1.0);
@@ -48,8 +48,8 @@ public class SpawnerCommand extends RCommand {
 
         amount = Integer.parseInt(argAt(2));
 
-        String spawnerName = StackMobs.getNameForType(type);
-        ItemStack spawner = new MakeItem(Material.MOB_SPAWNER).setName("<e>Gerador de " + spawnerName).addLoreList("<7>Tipo de spawner: " + type.name()).build();
+        final String spawnerName = StackMobs.getNameForType(type);
+        final ItemStack spawner = new MakeItem(Material.MOB_SPAWNER).setName("<e>Gerador de " + spawnerName).addLoreList("<7>Tipo de spawner: " + type.name()).build();
 
         for (int i = 0; i < amount; i++) {
             if (toGive.getInventory().firstEmpty() == -1) {
@@ -61,7 +61,7 @@ public class SpawnerCommand extends RCommand {
 
         toGive.updateInventory();
         playSound(toGive, Sound.BLOCK_NOTE_BLOCK_PLING, 1.0, 1.0);
-        EssentialsAPI.sendStaffMessage("<c>[Logs] <8>" + toGive.getName() + " <f>enviou <4>" + amount + " <f>sp de " + spawnerName + " <f>para <8>" + toGive.getName() + "<f>.");
+        EssentialsAPI.sendStaffMessage(EssentialsAPI.typeStaff.todos,"<c>[Logs] <8>" + toGive.getName() + " <f>enviou <4>" + amount + " <f>sp de " + spawnerName + " <f>para <8>" + toGive.getName() + "<f>.");
     }
     @Override public List<String> tabComplete() { return null; }
 }

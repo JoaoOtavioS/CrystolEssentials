@@ -25,10 +25,10 @@ public class SpawnerExplosionListener implements Listener {
             if (block.getType() == Material.MOB_SPAWNER) {
                 if (random.nextInt(5) <= 1) {
 
-                    CreatureSpawner spawner = (CreatureSpawner) block.getState();
-                    EntityType type = spawner.getSpawnedType();
-                    String spawnerName = StackMobs.getNameForType(type);
-                    ItemStack spawnerItem = new MakeItem(Material.MOB_SPAWNER).setName("<e>Gerador de " + spawnerName).addLoreList("<7>Tipo de spawner: " + type.name()).setAmount(1).build();
+                    final CreatureSpawner spawner = (CreatureSpawner) block.getState();
+                    final EntityType type = spawner.getSpawnedType();
+                    final String spawnerName = StackMobs.getNameForType(type);
+                    final ItemStack spawnerItem = new MakeItem(Material.MOB_SPAWNER).setName("<e>Gerador de " + spawnerName).addLoreList("<7>Tipo de spawner: " + type.name()).setAmount(1).build();
 
                     block.getLocation().getWorld().dropItemNaturally(block.getLocation(), spawnerItem);
                 }

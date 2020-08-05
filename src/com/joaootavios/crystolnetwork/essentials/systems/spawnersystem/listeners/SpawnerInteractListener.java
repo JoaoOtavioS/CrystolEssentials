@@ -14,7 +14,7 @@ public class SpawnerInteractListener implements Listener {
     public void onPlayerInteract(PlayerInteractEvent e) {
         final Player pl = e.getPlayer();
         if (isSpawner(e.getClickedBlock().getType()) && e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            ItemStack mainHand = pl.getItemInHand();
+            final ItemStack mainHand = pl.getItemInHand();
             if (isEgg(mainHand) && !mainHand.equals(Material.AIR)) {
                 e.setCancelled(true);
             }

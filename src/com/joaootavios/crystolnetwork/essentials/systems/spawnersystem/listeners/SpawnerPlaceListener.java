@@ -23,8 +23,8 @@ public class SpawnerPlaceListener implements Listener {
             if (p.getGameMode() == GameMode.SURVIVAL) {
                 if (SpawnerUtils.isSpawner(e.getItemInHand())) {
 
-                    EntityType type = SpawnerUtils.getSpawnerType(e.getItemInHand());
-                    CreatureSpawner spawner = (CreatureSpawner) e.getBlockPlaced().getState();
+                    final EntityType type = SpawnerUtils.getSpawnerType(e.getItemInHand());
+                    final CreatureSpawner spawner = (CreatureSpawner) e.getBlockPlaced().getState();
                     spawner.setSpawnedType(type);
 
                     if (e.isCancelled()) {

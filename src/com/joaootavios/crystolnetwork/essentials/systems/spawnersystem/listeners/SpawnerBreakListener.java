@@ -35,8 +35,8 @@ public class SpawnerBreakListener implements Listener {
                     e.setExpToDrop(0);
                     e.getBlock().getDrops().clear();
 
-                    EntityType type = spawner.getSpawnedType();
-                    String spawnerName = StackMobs.getNameForType(type);
+                    final EntityType type = spawner.getSpawnedType();
+                    final String spawnerName = StackMobs.getNameForType(type);
 
                     if (e.getPlayer().getInventory().firstEmpty() == -1) {
                         PlayerUtil.sendActionBar(p, "<c>Você deve conter pelo menos 1 slot vazio em seu inventário.\"");
