@@ -1,7 +1,7 @@
 package com.joaootavios.crystolnetwork.essentials.listeners;
 
 import com.joaootavios.crystolnetwork.essentials.EssentialsPlugin;
-import com.joaootavios.crystolnetwork.essentials.utils.CooldownAPI;
+import com.joaootavios.crystolnetwork.essentials.api.CooldownAPI;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

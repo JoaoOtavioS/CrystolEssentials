@@ -1,7 +1,7 @@
 package com.joaootavios.crystolnetwork.essentials.systems.chats;
 
 import com.joaootavios.crystolnetwork.essentials.EssentialsPlugin;
-import com.joaootavios.crystolnetwork.essentials.utils.CooldownAPI;
+import com.joaootavios.crystolnetwork.essentials.api.CooldownAPI;
 import com.joaootavios.crystolnetwork.essentials.utils.Messages;
 import dev.walk.economy.Manager.Account;
 import dev.walk.economy.Manager.AccountManager;
