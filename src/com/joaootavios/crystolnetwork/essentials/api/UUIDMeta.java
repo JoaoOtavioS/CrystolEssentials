@@ -1,4 +1,4 @@
-package com.joaootavios.crystolnetwork.essentials.utils;
+package com.joaootavios.crystolnetwork.essentials.api;
 
 
 import java.util.HashMap;
