@@ -22,9 +22,6 @@ public class Tablist {
         CraftPlayer craftplayer = (CraftPlayer) player;
         PlayerConnection connection = craftplayer.getHandle().playerConnection;
 
-//        IChatBaseComponent header = ChatSerializer.a("{\"text\": \"" + headertext + "\"}");
-//        IChatBaseComponent footer = ChatSerializer.a("{\"text\": \"" + footertext + "\"}");
-
         if(headertext == null) {
             headertext = new String();
         }
