@@ -1,7 +1,9 @@
 package com.joaootavios.crystolnetwork.essentials.systems.spawnersystem;
 
+import com.joaootavios.crystolnetwork.essentials.api.enums.StaffType;
 import com.joaootavios.crystolnetwork.essentials.systems.StackMobs;
 import com.joaootavios.crystolnetwork.essentials.api.EssentialsAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -61,7 +63,7 @@ public class SpawnerCommand extends RCommand {
 
         toGive.updateInventory();
         playSound(toGive, Sound.BLOCK_NOTE_BLOCK_PLING, 1.0, 1.0);
-        EssentialsAPI.sendStaffMessage(EssentialsAPI.typeStaff.todos,"<c>[Logs] <8>" + toGive.getName() + " <f>enviou <4>" + amount + " <f>sp de " + spawnerName + " <f>para <8>" + toGive.getName() + "<f>.");
+        EssentialsAPI.sendStaffMessage(StaffType.all,"<c>[Logs] <8>" + toGive.getName() + " <f>enviou <4>" + amount + " <f>sp de " + spawnerName + " <f>para <8>" + toGive.getName() + "<f>.");
     }
-    @Override public List<String> tabComplete() { return null; }
+    @Override public List<String> tabComplete() { return getPlayersTabComplete(firstArg(), Bukkit.getOnlinePlayers()); }
 }
