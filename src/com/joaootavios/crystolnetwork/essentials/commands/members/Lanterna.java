@@ -1,7 +1,9 @@
 package com.joaootavios.crystolnetwork.essentials.commands.members;
 
+import com.joaootavios.crystolnetwork.essentials.api.EssentialsAPI;
+import com.joaootavios.crystolnetwork.essentials.api.enums.StaffType;
 import com.joaootavios.crystolnetwork.essentials.utils.Messages;
-import com.joaootavios.crystolnetwork.essentials.utils.UUIDMeta;
+import com.joaootavios.crystolnetwork.essentials.api.UUIDMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import rcore.command.RCommand;

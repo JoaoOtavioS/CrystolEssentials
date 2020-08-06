@@ -4,7 +4,7 @@ import com.crystolnetwork.offices.entity.PlayerBase;
 import com.crystolnetwork.offices.services.OfficesServices;
 import com.crystolnetwork.offices.services.SingletonService;
 import com.joaootavios.crystolnetwork.essentials.EssentialsPlugin;
-import com.joaootavios.crystolnetwork.essentials.utils.CooldownAPI;
+import com.joaootavios.crystolnetwork.essentials.api.CooldownAPI;
 import com.joaootavios.crystolnetwork.essentials.utils.Messages;
 import com.massivecraft.factions.entity.MPlayer;
 import dev.walk.economy.Manager.Account;

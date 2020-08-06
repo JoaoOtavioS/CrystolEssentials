@@ -1,6 +1,7 @@
 package com.joaootavios.crystolnetwork.essentials.commands.staff;
 
 import com.joaootavios.crystolnetwork.essentials.utils.Messages;
+import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -38,7 +39,7 @@ public class Gamemode extends RCommand {
 
     @Override
     public List<String> tabComplete() {
-        return null;
+        return getPlayersTabComplete(lastArg(), Bukkit.getOnlinePlayers());
     }
 
     public void gamemodeMenu(Player p1, Player open_menu) {
@@ -57,10 +58,11 @@ public class Gamemode extends RCommand {
             PlayerUtil.playSound(open_menu, Sound.ENTITY_VILLAGER_YES);
         });
         inventory.setItem(3, new MakeItem(Banners.getAlphabet("C", DyeColor.BLACK, DyeColor.WHITE)).hideAttributes().setName("&eCriativo").build(), (e) -> {
-            if (!open_menu.hasPermission("crystolnetwork.gerente")) {
+            if (!asPlayer().hasPermission("crystolnetwork.gerente")) {
                 open_menu.closeInventory();
                 PlayerUtil.sendTitle(open_menu, "", "&cPermissão insuficiente.", 5, 30, 5);
                 PlayerUtil.playSound(open_menu, Sound.ENTITY_VILLAGER_NO);
+                return;
             }
             p1.setGameMode(GameMode.CREATIVE);
             open_menu.closeInventory();

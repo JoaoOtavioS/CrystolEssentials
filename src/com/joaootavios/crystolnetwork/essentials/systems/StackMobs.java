@@ -1,7 +1,7 @@
 package com.joaootavios.crystolnetwork.essentials.systems;
 
 import com.joaootavios.crystolnetwork.essentials.EssentialsPlugin;
-import com.joaootavios.crystolnetwork.essentials.experienceapi.ExperienceAPI;
+import com.joaootavios.crystolnetwork.essentials.api.experienceapi.ExperienceAPI;
 import net.minecraft.server.v1_8_R3.EntityLiving;
 import org.bukkit.Chunk;
 import org.bukkit.Material;

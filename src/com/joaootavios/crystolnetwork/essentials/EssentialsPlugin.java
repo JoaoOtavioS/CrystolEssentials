@@ -15,7 +15,7 @@ import com.joaootavios.crystolnetwork.essentials.systems.spawnersystem.listeners
 import com.joaootavios.crystolnetwork.essentials.systems.spawnersystem.listeners.SpawnerInteractListener;
 import com.joaootavios.crystolnetwork.essentials.systems.spawnersystem.listeners.SpawnerPlaceListener;
 import com.joaootavios.crystolnetwork.essentials.systems.warps.*;
-import com.joaootavios.crystolnetwork.essentials.experienceapi.ExperienceAPI;
+import com.joaootavios.crystolnetwork.essentials.api.experienceapi.ExperienceAPI;
 import com.joaootavios.crystolnetwork.essentials.systems.StackMobs;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPlayer;
