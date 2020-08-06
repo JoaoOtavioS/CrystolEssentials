@@ -1,4 +1,4 @@
-package com.joaootavios.crystolnetwork.essentials.experienceapi;
+package com.joaootavios.crystolnetwork.essentials.api.experienceapi;
 
 import com.joaootavios.crystolnetwork.essentials.EssentialsPlugin;
 import org.bukkit.OfflinePlayer;
