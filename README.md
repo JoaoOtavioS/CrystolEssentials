@@ -1,4 +1,5 @@
 # CrystolEssentials
+NOTA: Versão super desatualizada, irei postar a recente que foi totalmente refeita em breve.
 Um plugin essencial para o funcionamento do servidor.
 
 ## Sumário
